@@ -33,9 +33,19 @@ cd powercenter-microsoft-fabric
 python3 scripts/setup_environment.py
 ```
 
-O script de setup verifica Python 3.11+, pip, Git, PowerShell, instala os pacotes necessários e gera o arquivo `.env` com template.
+O script de setup verifica Python 3.11+, pip, Git, PowerShell, instala os pacotes necessários e gera o arquivo `.env` a partir do template `.env.example`.
 
-### 2. Instalar o pre-commit hook (uma vez)
+### 2. Configurar credenciais
+
+```bash
+cp .env.example .env   # se o setup não criou automaticamente
+# edite .env com suas credenciais Azure/Fabric
+```
+
+> O arquivo `.env` está no `.gitignore` — **nunca será commitado**.  
+> Commite somente o `.env.example` com valores vazios.
+
+### 3. Instalar o pre-commit hook (uma vez)
 
 ```bash
 python3 scripts/install_hooks.py
@@ -43,19 +53,19 @@ python3 scripts/install_hooks.py
 
 A partir daí o harness roda automaticamente antes de cada commit.
 
-### 3. Verificar integridade do projeto
+### 4. Verificar integridade do projeto
 
 ```bash
 python3 -m harness.runner
 ```
 
-### 4. Gerar dados de teste localmente
+### 5. Gerar dados de teste localmente
 
 ```bash
 python3 scripts/generate_10k_demo.py
 ```
 
-### 5. Importar para o Microsoft Fabric
+### 6. Importar para o Microsoft Fabric
 
 Siga o [Passo a Passo](START_HERE.md) ou o guia detalhado em [`docs/FABRIC_IMPORT_GUIDE.md`](docs/FABRIC_IMPORT_GUIDE.md).
 
@@ -139,7 +149,9 @@ powercenter-microsoft-fabric/
 ├── logs/                          # Logs de execução e setup
 ├── test-reports/                  # Relatórios HTML e JSON do harness
 │
-├── .env                           # Variáveis de ambiente (não commitado)
+├── .env                           # Variáveis de ambiente — NÃO commitado (.gitignore)
+├── .env.example                   # Template seguro para credenciais (commitado)
+├── .gitignore                     # Exclui __pycache__, .env, .pyc, .DS_Store
 ├── .github/workflows/harness.yml  # CI no GitHub Actions
 └── README.md
 ```
@@ -253,4 +265,4 @@ hr.xml  (rowTag="Department")
 ---
 
 **Licença:** Projeto educacional e de demonstração.  
-**Última atualização:** 2026-06-19 | **Versão:** 2.0
+**Última atualização:** 2026-06-19 | **Versão:** 2.1

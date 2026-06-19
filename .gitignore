@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Variáveis de ambiente — nunca commitar com credenciais reais
+.env
+.env.local
+.env.*.local
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs gerados localmente (manter apenas samples)
+logs/*.log
+
+# Relatórios gerados (manter apenas os commitados manualmente)
+# test-reports/harness_report.* → commitados intencionalmente
