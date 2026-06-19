@@ -111,12 +111,11 @@ powercenter-microsoft-fabric/
 │   └── 06_Pipeline_Import_Guide.ipynb
 │
 ├── pipelines/
-│   ├── deliverables/              # Artefatos prontos para importação no Fabric
-│   │   ├── pl_m_poc_xml_emp.zip          # Pipeline EMP (ARM template)
-│   │   ├── pl_m_poc_xml_hr.zip           # Pipeline HR (ARM template)
-│   │   ├── pl_m_poc_xml_emp_FABRIC_DF.zip  # Pipeline EMP (Fabric DF format)
-│   │   └── pl_m_poc_xml_hr_FABRIC_DF.zip   # Pipeline HR (Fabric DF format)
-│   ├── schemas/                   # Definições e versões intermediárias
+│   ├── deliverables/
+│   │   └── fabric-ready/                       # ZIPs prontos para importação no Fabric
+│   │       ├── pl_m_poc_xml_emp_FABRIC.zip     # Pipeline EMP — ARM template
+│   │       └── pl_m_poc_xml_hr_FABRIC.zip      # Pipeline HR  — ARM template
+│   ├── schemas/                   # Schemas ARM template e versões intermediárias
 │   ├── validation/                # Scripts de validação de ZIPs
 │   ├── reference/                 # Modelo de referência Fabric
 │   └── archive/                   # Artefatos legados preservados
@@ -217,8 +216,9 @@ hr.xml  (rowTag="Department")
 ### Opção A — Pipeline via ZIP (recomendado)
 
 1. Acesse seu workspace Fabric
-2. **+ New → Data pipeline → Import** → selecione o ZIP em `pipelines/deliverables/`
-   - `pl_m_poc_xml_emp.zip` (ARM template) ou `pl_m_poc_xml_emp_FABRIC_DF.zip` (Fabric DF)
+2. **+ New → Data pipeline → Import** → selecione o ZIP em `pipelines/deliverables/fabric-ready/`
+   - `pl_m_poc_xml_emp_FABRIC.zip` — pipeline EMP
+   - `pl_m_poc_xml_hr_FABRIC.zip` — pipeline HR
 3. Configure os parâmetros de Lakehouse
 4. Clique em **Run**
 
@@ -232,7 +232,7 @@ hr.xml  (rowTag="Department")
 
 ## Troubleshooting
 
-**"Invalid ZIP format"** → Use os ZIPs de `pipelines/deliverables/`. Não use os de `pipelines/schemas/` ou `pipelines/archive/`.
+**"Invalid ZIP format"** → Use os ZIPs de `pipelines/deliverables/fabric-ready/`. Não use os de `pipelines/schemas/` ou `pipelines/archive/`.
 
 **"Path not found" para XML** → Caminho correto: `/lakehouse/default/Files/source/employees.xml`
 
@@ -265,4 +265,4 @@ hr.xml  (rowTag="Department")
 ---
 
 **Licença:** Projeto educacional e de demonstração.  
-**Última atualização:** 2026-06-19 | **Versão:** 2.1
+**Última atualização:** 2026-06-19 | **Versão:** 2.2

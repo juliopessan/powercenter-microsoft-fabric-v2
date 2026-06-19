@@ -11,6 +11,7 @@ REQUIRED_DIRS = [
     "notebooks",
     "output",
     "pipelines/deliverables",
+    "pipelines/deliverables/fabric-ready",
     "pipelines/schemas",
     "pipelines/validation",
     "scripts",
@@ -23,13 +24,13 @@ REQUIRED_DIRS = [
 
 REQUIRED_FILES = [
     "scripts/setup_environment.py",
+    "scripts/install_hooks.py",
     "pipelines/validation/validate_zips.py",
     "pipelines/validation/validate_final_zips.py",
-    "pipelines/deliverables/pl_m_poc_xml_emp.zip",
-    "pipelines/deliverables/pl_m_poc_xml_hr.zip",
-    "pipelines/deliverables/pl_m_poc_xml_emp_FABRIC_DF.zip",
-    "pipelines/deliverables/pl_m_poc_xml_hr_FABRIC_DF.zip",
-    ".env",
+    "pipelines/deliverables/fabric-ready/pl_m_poc_xml_emp_FABRIC.zip",
+    "pipelines/deliverables/fabric-ready/pl_m_poc_xml_hr_FABRIC.zip",
+    ".env.example",
+    ".gitignore",
 ]
 
 
