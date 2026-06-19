@@ -1,0 +1,28 @@
+[2026-06-19 17:53:42] [INFO] ========================================
+[2026-06-19 17:53:42] [INFO] FABRIC ZIP PREPARATION (ARM Template)
+[2026-06-19 17:53:42] [INFO] ========================================
+[2026-06-19 17:53:42] [INFO] Pipeline: all
+[2026-06-19 17:53:42] [INFO] Output Dir: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\pipelines\deliverables\fabric-ready
+[2026-06-19 17:53:42] [INFO] 
+[2026-06-19 17:53:42] [INFO] --- Processing EMP Pipeline (ARM Template) ---
+[2026-06-19 17:53:42] [INFO] Creating Fabric ZIP for: pl_m_poc_xml_emp
+[2026-06-19 17:53:42] [INFO] Packaged: manifest.json, pl_m_poc_xml_emp.json
+[2026-06-19 17:53:42] [SUCCESS] [OK] ZIP Created: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\pipelines\deliverables\fabric-ready\pl_m_poc_xml_emp_FABRIC.zip (1.86 KB)
+[2026-06-19 17:53:42] [INFO] 
+[2026-06-19 17:53:42] [INFO] --- Processing HR Pipeline (ARM Template) ---
+[2026-06-19 17:53:42] [INFO] Creating Fabric ZIP for: pl_m_poc_xml_hr
+[2026-06-19 17:53:42] [INFO] Packaged: manifest.json, pl_m_poc_xml_hr.json
+[2026-06-19 17:53:42] [SUCCESS] [OK] ZIP Created: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\pipelines\deliverables\fabric-ready\pl_m_poc_xml_hr_FABRIC.zip (2.1 KB)
+[2026-06-19 17:53:42] [INFO] 
+[2026-06-19 17:53:42] [INFO] ========================================
+[2026-06-19 17:53:42] [INFO] SUMMARY
+[2026-06-19 17:53:42] [INFO] ========================================
+[2026-06-19 17:53:42] [INFO] Successes: 2
+[2026-06-19 17:53:42] [INFO] Failures: 0
+[2026-06-19 17:53:42] [INFO] Output Location: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\pipelines\deliverables\fabric-ready
+[2026-06-19 17:53:42] [INFO] 
+[2026-06-19 17:53:42] [INFO] [OK] Ready for Fabric Import (ARM Templates):
+[2026-06-19 17:53:42] [INFO]   [OK] pl_m_poc_xml_emp_FABRIC.zip (1.86 KB)
+[2026-06-19 17:53:42] [INFO]   [OK] pl_m_poc_xml_hr_FABRIC.zip (2.1 KB)
+[2026-06-19 17:53:42] [INFO] 
+[2026-06-19 17:53:42] [INFO] Log file: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\logs\zip-prepare-arm-20260619_175342.log

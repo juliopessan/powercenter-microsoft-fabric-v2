@@ -1,0 +1,15 @@
+[2026-06-19 17:47:51] [INFO] ========== INFORMATICA POWERCENTER - POC ==========
+[2026-06-19 17:47:51] [INFO] WorkflowType: all
+[2026-06-19 17:47:51] [INFO] 
+[2026-06-19 17:47:52] [INFO] === INICIANDO WORKFLOW: wf_m_poc_xml_emp ===
+[2026-06-19 17:47:52] [ERROR] ERRO: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\scripts\employees.xml nao encontrado
+[2026-06-19 17:47:52] [INFO] 
+[2026-06-19 17:47:52] [INFO] === INICIANDO WORKFLOW: wf_m_poc_xml_hr ===
+[2026-06-19 17:47:52] [ERROR] ERRO: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\scripts\hr.xml nao encontrado
+[2026-06-19 17:47:52] [INFO] 
+[2026-06-19 17:47:52] [INFO] ========== RESUMO FINAL ==========
+[2026-06-19 17:47:52] [SUCCESS] Sucessos: 0
+[2026-06-19 17:47:52] [ERROR] Falhas: 2
+[2026-06-19 17:47:52] [INFO] 
+[2026-06-19 17:47:52] [INFO] Arquivos gerados:
+[2026-06-19 17:47:52] [INFO] Log file: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\scripts\logs\wf_execution_20260619_174751.log
