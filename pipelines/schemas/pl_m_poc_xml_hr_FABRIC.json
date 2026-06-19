@@ -1,0 +1,217 @@
+﻿{
+    "name":  "pl_m_poc_xml_hr",
+    "objectId":  "ef5e3f68-54dc-4635-ab76-1e8a40add6b6",
+    "properties":  {
+                       "activities":  [
+                                          {
+                                              "name":  "Lk_source_tables",
+                                              "type":  "Lookup",
+                                              "dependsOn":  [
+
+                                                            ],
+                                              "policy":  {
+                                                             "timeout":  "0.12:00:00",
+                                                             "retry":  0,
+                                                             "retryIntervalInSeconds":  30,
+                                                             "secureOutput":  false,
+                                                             "secureInput":  false
+                                                         },
+                                              "typeProperties":  {
+                                                                     "source":  {
+                                                                                    "type":  "DelimitedTextSource",
+                                                                                    "storeSettings":  {
+                                                                                                          "type":  "LakehouseReadSettings",
+                                                                                                          "recursive":  true,
+                                                                                                          "enablePartitionDiscovery":  false
+                                                                                                      },
+                                                                                    "formatSettings":  {
+                                                                                                           "type":  "DelimitedTextReadSettings"
+                                                                                                       }
+                                                                                },
+                                                                     "firstRowOnly":  false,
+                                                                     "datasetSettings":  {
+                                                                                             "annotations":  [
+
+                                                                                                             ],
+                                                                                             "linkedService":  {
+                                                                                                                   "name":  "fabric_lakehouse",
+                                                                                                                   "properties":  {
+                                                                                                                                      "annotations":  [
+
+                                                                                                                                                      ],
+                                                                                                                                      "type":  "Lakehouse",
+                                                                                                                                      "typeProperties":  {
+                                                                                                                                                             "workspaceId":  "07fa017b-dbcc-4cdd-bc70-4811ff6afa54",
+                                                                                                                                                             "artifactId":  "[parameters(\u0027bronze_LH_amos\u0027)]",
+                                                                                                                                                             "rootFolder":  "Files"
+                                                                                                                                                         }
+                                                                                                                                  }
+                                                                                                               },
+                                                                                             "type":  "DelimitedText",
+                                                                                             "typeProperties":  {
+                                                                                                                    "location":  {
+                                                                                                                                     "type":  "LakehouseLocation",
+                                                                                                                                     "fileName":  "source_tables_hr.csv"
+                                                                                                                                 },
+                                                                                                                    "columnDelimiter":  ",",
+                                                                                                                    "escapeChar":  "\\",
+                                                                                                                    "firstRowAsHeader":  true,
+                                                                                                                    "quoteChar":  "\""
+                                                                                                                },
+                                                                                             "schema":  [
+
+                                                                                                        ]
+                                                                                         }
+                                                                 }
+                                          },
+                                          {
+                                              "name":  "ForEach",
+                                              "type":  "ForEach",
+                                              "dependsOn":  [
+                                                                {
+                                                                    "activity":  "Filter_active",
+                                                                    "dependencyConditions":  [
+                                                                                                 "Succeeded"
+                                                                                             ]
+                                                                }
+                                                            ],
+                                              "typeProperties":  {
+                                                                     "items":  {
+                                                                                   "value":  "@activity(\u0027Filter_active\u0027).output.Value",
+                                                                                   "type":  "Expression"
+                                                                               },
+                                                                     "batchCount":  3,
+                                                                     "activities":  [
+                                                                                        {
+                                                                                            "name":  "Copy_data",
+                                                                                            "type":  "Copy",
+                                                                                            "dependsOn":  [
+
+                                                                                                          ],
+                                                                                            "policy":  {
+                                                                                                           "timeout":  "0.12:00:00",
+                                                                                                           "retry":  0,
+                                                                                                           "retryIntervalInSeconds":  30,
+                                                                                                           "secureOutput":  false,
+                                                                                                           "secureInput":  false
+                                                                                                       },
+                                                                                            "typeProperties":  {
+                                                                                                                   "source":  {
+                                                                                                                                  "type":  "FabricSqlDatabaseSource",
+                                                                                                                                  "queryTimeout":  "02:00:00",
+                                                                                                                                  "partitionOption":  "None",
+                                                                                                                                  "datasetSettings":  {
+                                                                                                                                                          "annotations":  [
+
+                                                                                                                                                                          ],
+                                                                                                                                                          "connectionSettings":  {
+                                                                                                                                                                                     "name":  "hr_data",
+                                                                                                                                                                                     "properties":  {
+                                                                                                                                                                                                        "annotations":  [
+
+                                                                                                                                                                                                                        ],
+                                                                                                                                                                                                        "type":  "FabricSqlDatabase",
+                                                                                                                                                                                                        "typeProperties":  {
+                                                                                                                                                                                                                               "workspaceId":  "07fa017b-dbcc-4cdd-bc70-4811ff6afa54",
+                                                                                                                                                                                                                               "artifactId":  "[parameters(\u0027adventureWorks\u0027)]"
+                                                                                                                                                                                                                           },
+                                                                                                                                                                                                        "externalReferences":  {
+                                                                                                                                                                                                                                   "connection":  "aa15ee1e-aec9-4d9d-848a-426f43e36f6b"
+                                                                                                                                                                                                                               }
+                                                                                                                                                                                                    }
+                                                                                                                                                                                 },
+                                                                                                                                                          "type":  "FabricSqlDatabaseTable",
+                                                                                                                                                          "schema":  [
+
+                                                                                                                                                                     ],
+                                                                                                                                                          "typeProperties":  {
+                                                                                                                                                                                 "schema":  {
+                                                                                                                                                                                                "value":  "@{item().source_path_name}",
+                                                                                                                                                                                                "type":  "Expression"
+                                                                                                                                                                                            },
+                                                                                                                                                                                 "table":  {
+                                                                                                                                                                                               "value":  "@{item().source_file_name}",
+                                                                                                                                                                                               "type":  "Expression"
+                                                                                                                                                                                           }
+                                                                                                                                                                             }
+                                                                                                                                                      }
+                                                                                                                              },
+                                                                                                                   "sink":  {
+                                                                                                                                "type":  "LakehouseTableSink",
+                                                                                                                                "tableActionOption":  "Append",
+                                                                                                                                "applyVOrder":  true,
+                                                                                                                                "datasetSettings":  {
+                                                                                                                                                        "annotations":  [
+
+                                                                                                                                                                        ],
+                                                                                                                                                        "linkedService":  {
+                                                                                                                                                                              "name":  "fabric_lakehouse",
+                                                                                                                                                                              "properties":  {
+                                                                                                                                                                                                 "annotations":  [
+
+                                                                                                                                                                                                                 ],
+                                                                                                                                                                                                 "type":  "Lakehouse",
+                                                                                                                                                                                                 "typeProperties":  {
+                                                                                                                                                                                                                        "workspaceId":  "07fa017b-dbcc-4cdd-bc70-4811ff6afa54",
+                                                                                                                                                                                                                        "artifactId":  "[parameters(\u0027bronze_LH_amos\u0027)]",
+                                                                                                                                                                                                                        "rootFolder":  "Tables"
+                                                                                                                                                                                                                    }
+                                                                                                                                                                                             }
+                                                                                                                                                                          },
+                                                                                                                                                        "type":  "LakehouseTable",
+                                                                                                                                                        "schema":  [
+
+                                                                                                                                                                   ],
+                                                                                                                                                        "typeProperties":  {
+                                                                                                                                                                               "schema":  {
+                                                                                                                                                                                              "value":  "@{item().target_path_name}",
+                                                                                                                                                                                              "type":  "Expression"
+                                                                                                                                                                                          },
+                                                                                                                                                                               "table":  {
+                                                                                                                                                                                             "value":  "@{item().target_file_name}",
+                                                                                                                                                                                             "type":  "Expression"
+                                                                                                                                                                                         }
+                                                                                                                                                                           }
+                                                                                                                                                    }
+                                                                                                                            },
+                                                                                                                   "enableStaging":  false,
+                                                                                                                   "translator":  {
+                                                                                                                                      "type":  "TabularTranslator",
+                                                                                                                                      "typeConversion":  true,
+                                                                                                                                      "typeConversionSettings":  {
+                                                                                                                                                                     "allowDataTruncation":  true,
+                                                                                                                                                                     "treatBooleanAsNumber":  false
+                                                                                                                                                                 }
+                                                                                                                                  }
+                                                                                                               }
+                                                                                        }
+                                                                                    ]
+                                                                 }
+                                          },
+                                          {
+                                              "name":  "Filter_active",
+                                              "type":  "Filter",
+                                              "dependsOn":  [
+                                                                {
+                                                                    "activity":  "Lk_source_tables",
+                                                                    "dependencyConditions":  [
+                                                                                                 "Succeeded"
+                                                                                             ]
+                                                                }
+                                                            ],
+                                              "typeProperties":  {
+                                                                     "items":  {
+                                                                                   "value":  "@activity(\u0027Lk_source_tables\u0027).output.value",
+                                                                                   "type":  "Expression"
+                                                                               },
+                                                                     "condition":  {
+                                                                                       "value":  "@equals(item().active, \u0027TRUE\u0027)",
+                                                                                       "type":  "Expression"
+                                                                                   }
+                                                                 }
+                                          }
+                                      ],
+                       "lastModifiedByObjectId":  "00000000-0000-0000-0000-000000000000",
+                       "lastPublishTime":  "2026-06-19T18:25:39Z"
+                   }
+}
