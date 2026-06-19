@@ -1,294 +1,256 @@
-# PowerCenter to Microsoft Fabric Migration Project
+# PowerCenter to Microsoft Fabric
 
-> **Complete end-to-end transformation of Informatica PowerCenter workflows into Microsoft Fabric with native PySpark**  
-> 
-> Projeto: Migração de workflows PowerCenter Informatica para Microsoft Fabric com PySpark nativo
+> Migração completa de workflows Informatica PowerCenter para Microsoft Fabric com PySpark nativo.
 
-## 📋 Visão Geral
-
-Este projeto demonstra a migração de dois workflows PowerCenter Informatica para Microsoft Fabric:
-
-1. **Flat XML Processing** (`wf_m_poc_xml_emp.XML`)
-   - Processa dados XML simples de funcionários
-   - Transforma para formato CSV com validações
-   - [📺 Tutorial YouTube](https://www.youtube.com/watch?v=ypGDbtYLQKw)
-
-2. **Hierarchical XML Processing** (`wf_m_poc_xml_hr.XML`)
-   - Processa dados XML hierárquicos de departamentos
-   - Achata estruturas aninhadas e valida integridade
-   - [📺 Tutorial YouTube](https://www.youtube.com/watch?v=0aKBhwFPE-Y)
+**Status:** ✅ Produção | **Harness:** 7/7 specs passando | **Atualizado:** 2026-06-19
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## O que este projeto faz
+
+Transforma dois workflows PowerCenter Informatica em pipelines nativos do Microsoft Fabric:
+
+| Workflow | Tipo | Fonte | Saída |
+|---|---|---|---|
+| `wf_m_poc_xml_emp` | XML simples | `employees.xml` (8 registros) | `emp_poc.csv` |
+| `wf_m_poc_xml_hr` | XML hierárquico | `hr.xml` (3 depts / 8 empregados) | `hr.csv` |
+
+Referências em vídeo:
+- [Flat XML Processing](https://www.youtube.com/watch?v=ypGDbtYLQKw)
+- [Hierarchical XML Processing](https://www.youtube.com/watch?v=0aKBhwFPE-Y)
+
+---
+
+## Início rápido
+
+### 1. Clonar e preparar o ambiente
+
+```bash
+git clone https://github.com/juliopessan/powercenter-microsoft-fabric.git
+cd powercenter-microsoft-fabric
+
+# Prepara o ambiente automaticamente (instala pacotes, cria .env, valida estrutura)
+python3 scripts/setup_environment.py
+```
+
+O script de setup verifica Python 3.11+, pip, Git, PowerShell, instala os pacotes necessários e gera o arquivo `.env` com template.
+
+### 2. Instalar o pre-commit hook (uma vez)
+
+```bash
+python3 scripts/install_hooks.py
+```
+
+A partir daí o harness roda automaticamente antes de cada commit.
+
+### 3. Verificar integridade do projeto
+
+```bash
+python3 -m harness.runner
+```
+
+### 4. Gerar dados de teste localmente
+
+```bash
+python3 scripts/generate_10k_demo.py
+```
+
+### 5. Importar para o Microsoft Fabric
+
+Siga o [Passo a Passo](START_HERE.md) ou o guia detalhado em [`docs/FABRIC_IMPORT_GUIDE.md`](docs/FABRIC_IMPORT_GUIDE.md).
+
+---
+
+## Pré-requisitos
+
+### Ambiente local
+
+| Requisito | Versão mínima | Verificado por |
+|---|---|---|
+| Python | 3.11+ | `setup_environment.py` |
+| pip | qualquer | `setup_environment.py` |
+| Git | qualquer | `setup_environment.py` |
+| PowerShell | 5.1+ (Windows) / pwsh (Mac/Linux) | `setup_environment.py` (opcional) |
+
+### Microsoft Fabric (manual)
+
+- Conta Microsoft Fabric ativa → [app.fabric.microsoft.com](https://app.fabric.microsoft.com)
+- Workspace com permissão de Admin
+- Lakehouse configurado no workspace
+- Variáveis preenchidas no `.env` (gerado pelo setup)
+
+---
+
+## Estrutura do projeto
 
 ```
-Informatica-Scenarios/
-├── 📁 data/                          # Arquivos de dados
-│   ├── employees.xml                 # Dados simples (8 registros)
-│   ├── hr.xml                        # Dados hierárquicos (3 depts, 8 employees)
-│   ├── wf_m_poc_xml_emp.XML         # Workflow Informatica original (flat)
-│   └── wf_m_poc_xml_hr.XML          # Workflow Informatica original (hierárquico)
+powercenter-microsoft-fabric/
 │
-├── 📁 notebooks/                     # Jupyter notebooks para Fabric
-│   ├── 03_Map_EMP_Source_to_Target.ipynb          # XML simples → CSV
-│   ├── 05_Map_HR_Source_to_Target.ipynb           # XML hierárquico → CSV
-│   └── 06_Pipeline_Import_Guide.ipynb             # Guia de importação
+├── data/                          # XMLs de entrada
+│   ├── employees.xml              # Dados planos (8 registros)
+│   ├── hr.xml                     # Dados hierárquicos (3 depts)
+│   ├── wf_m_poc_xml_emp.XML       # Workflow PowerCenter original
+│   └── wf_m_poc_xml_hr.XML        # Workflow PowerCenter original
 │
-├── 📁 pipelines/                     # Pipelines distribuíveis e schemas
-│   ├── deliverables/                 # JSON/ZIP finais para importação
-│   ├── schemas/                      # Definições fonte e versões intermediárias
-│   ├── validation/                   # Scripts e relatórios de validação
-│   ├── reference/                    # Modelo kb-pl_bronze_driven de referência
-│   └── archive/                      # Artefatos legados preservados
+├── notebooks/                     # Jupyter notebooks para Fabric
+│   ├── 01_PowerCenter_to_PySpark_Translation.ipynb
+│   ├── 02_Workflow_Execution_EMP_and_HR.ipynb
+│   ├── 03_Map_EMP_Source_to_Target.ipynb
+│   ├── 04_PySpark_Large_Scale_Data_Generation.ipynb
+│   ├── 05_Map_HR_Source_to_Target.ipynb
+│   └── 06_Pipeline_Import_Guide.ipynb
 │
-├── 📁 docs/                          # Documentação (20+ guias)
-│   ├── FABRIC_IMPORT_GUIDE.md
-│   ├── POWERcenter_TO_PYSPARK_MAPPING.md
-│   └── ... (guias de execução e troubleshooting)
+├── pipelines/
+│   ├── deliverables/              # Artefatos prontos para importação no Fabric
+│   │   ├── pl_m_poc_xml_emp.zip          # Pipeline EMP (ARM template)
+│   │   ├── pl_m_poc_xml_hr.zip           # Pipeline HR (ARM template)
+│   │   ├── pl_m_poc_xml_emp_FABRIC_DF.zip  # Pipeline EMP (Fabric DF format)
+│   │   └── pl_m_poc_xml_hr_FABRIC_DF.zip   # Pipeline HR (Fabric DF format)
+│   ├── schemas/                   # Definições e versões intermediárias
+│   ├── validation/                # Scripts de validação de ZIPs
+│   ├── reference/                 # Modelo de referência Fabric
+│   └── archive/                   # Artefatos legados preservados
 │
-├── 📁 output/                        # Dados processados
+├── scripts/
+│   ├── setup_environment.py       # Prepara o ambiente automaticamente
+│   ├── install_hooks.py           # Instala pre-commit hook do harness
+│   ├── generate_10k_demo.py       # Gera 10 mil registros sintéticos (sem Spark)
+│   ├── run_pyspark_10k.py         # Gera dados com PySpark (para Fabric)
+│   └── fabric_import_notebook.py  # Importa CSVs e cria Delta tables no Fabric
+│
+├── harness/                       # Sistema de specs e validação automática
+│   ├── runner.py                  # CLI: --ci | --fix | --no-report
+│   ├── report.py                  # Geração de relatórios JSON e HTML
+│   └── specs/
+│       ├── project_structure.py   # Diretórios e arquivos obrigatórios
+│       ├── python_syntax.py       # Sintaxe Python válida em todos os .py
+│       ├── path_safety.py         # Zero caminhos hardcoded
+│       ├── pyspark_api.py         # Anti-padrões de PySpark
+│       ├── zip_structure.py       # Estrutura dos ZIPs Fabric
+│       ├── env_vars.py            # Chaves obrigatórias no .env
+│       └── csv_columns.py         # Contrato de colunas por CSV
+│
+├── output/                        # CSVs gerados
 │   ├── emp_poc.csv
 │   ├── hr.csv
-│   └── hr_poc_10k/                   # Dados de teste em escala
+│   └── hr_poc_10k/
 │
-├── 📁 scripts/                       # Automação e utilidades
-│   ├── fabric-mcp-automation.ps1
-│   ├── fabric_import_notebook.py
-│   └── ... (scripts auxiliares)
+├── docs/                          # 20+ guias de documentação
+├── logs/                          # Logs de execução e setup
+├── test-reports/                  # Relatórios HTML e JSON do harness
 │
-├── 📁 logs/                          # Logs de execução
-│
-├── 📁 test-reports/                  # Relatórios de testes
-│
-└── README.md                         # Este arquivo
+├── .env                           # Variáveis de ambiente (não commitado)
+├── .github/workflows/harness.yml  # CI no GitHub Actions
+└── README.md
 ```
 
 ---
 
-## ⚙️ Pré-Requisitos
+## Harness — sistema de qualidade
 
-### Ambiente Local
-- ✅ Python 3.11+ com pip
-- ✅ PowerShell 5.1+ (Windows)
-- ✅ Git
+O harness previne os erros que ocorreram durante o desenvolvimento do projeto:
 
-### Microsoft Fabric
-- ✅ Conta Microsoft Fabric ativa
-- ✅ Workspace Fabric com permissões de admin
-- ✅ Lakehouse configurado
-
----
-
-## 🚀 Guia de Execução Rápida
-
-### 1️⃣ Preparação Local (5 min)
+| Spec | O que detecta |
+|---|---|
+| `ProjectStructure` | Diretórios ou arquivos obrigatórios ausentes |
+| `PythonSyntax` | Erros de sintaxe em qualquer `.py` |
+| `PathSafety` | Caminhos absolutos hardcoded (`C:\Users\...`, `/Users/...`) |
+| `PySparkAPI` | `.agg()` com dict de listas, acesso a Row por índice, imports sem alias |
+| `ZipStructure` | ZIPs sem pasta raiz, sem `manifest.json`, campos ausentes |
+| `EnvVars` | Chaves obrigatórias ausentes no `.env` |
+| `CsvColumns` | Colunas do CSV divergindo do contrato esperado |
 
 ```bash
-# Clonar repositório
-git clone <repo-url>
-cd Informatica-Scenarios
+# Verificação completa
+python3 -m harness.runner
 
-# Ativar ambiente Python
-.\.venv\Scripts\Activate.ps1
+# Modo CI (saída compacta, exit 1 em erros)
+python3 -m harness.runner --ci
 
-# Instalar dependências (se necessário)
-pip install pyspark pandas
+# Corrigir problemas simples automaticamente
+python3 -m harness.runner --fix
 ```
 
-### 2️⃣ Teste Rápido com Dados Locais (10 min)
-
-```bash
-# Executar script de demonstração
-python scripts/run_pyspark_10k.py
-```
-
-**Resultado esperado:** Arquivos CSV em `output/`
-
-### 3️⃣ Importar para Microsoft Fabric (15 min)
-
-#### **Opção A: Importar via ZIP (Recomendado)**
-
-1. **Acesse seu Fabric Workspace**
-   ```
-   https://app.fabric.microsoft.com/workspace/<workspace-id>
-   ```
-
-2. **Criar novo Lakehouse**
-   - Clique em **+ New** → **Lakehouse**
-   - Nome: `informatica_poc`
-   - Aguarde criação
-
-3. **Upload de Dados**
-   - Upload dos arquivos XML para `/lakehouse/default/Files/source/`
-     - `employees.xml`
-     - `hr.xml`
-
-4. **Importar Notebooks**
-   - Clique em **+ New** → **Import Notebook**
-   - Selecione arquivos `.ipynb` de `notebooks/`
-     - `03_Map_EMP_Source_to_Target.ipynb`
-     - `05_Map_HR_Source_to_Target.ipynb`
-
-5. **Importar Pipeline (NOVO)**
-   - Clique em **+ New** → **Import from file** (ou **Pipeline**)
-  - Selecione `pipelines/deliverables/pl_m_poc_xml_emp_FABRIC_DF.json`
-  - Repita para `pipelines/deliverables/pl_m_poc_xml_hr_FABRIC_DF.json`
-  - Se o fluxo exigir ZIP, use os arquivos `*_FABRIC_DF.zip` da mesma pasta
-
-6. **Executar Pipeline**
-   - Abra pipeline importado
-   - Clique em **Run** ou **Save and run**
-   - Monitore execução na aba **Run history**
-
-#### **Opção B: Importar Manualmente (Sem ZIP)**
-
-1. **Upload Notebooks** individualmente via Fabric UI
-2. **Criar Pipeline** na UI com referências aos notebooks
-3. **Configurar atividades** para chamar notebooks em sequência
-
-### 4️⃣ Validar Resultados (5 min)
-
-Após execução:
-
-```
-Lakehouse Files:
-├── source/
-│   ├── employees.xml ✓
-│   └── hr.xml ✓
-│
-└── output/
-    ├── emp_poc_target/ → emp_poc.csv ✓
-  └── hr_poc_target/ → hr.csv ✓
-```
-
-✅ **Sucesso!** CSV files criados com validações aplicadas
+Relatórios em `test-reports/harness_report.html` e `harness_report.json`.
 
 ---
 
-## 📊 Mapeamento de Dados
+## Mapeamento de dados
 
-### Fluxo EMP (XML Simples → CSV)
-
-```
-employees.xml (8 registros)
-    ↓
-[XML Parse] → spark.read.format("xml")
-    ↓
-[Transformações]
-  • EMPLOYEE_ID: Trim + Upper
-  • Salary: ByteType (1000-500000)
-  • Name: String operations
-    ↓
-[Validações]
-  • Null checks
-  • Duplicate detection
-  • Salary range validation
-    ↓
-emp_poc.csv (8 registros + validações)
-```
-
-### Fluxo HR (XML Hierárquico → CSV)
+### Fluxo EMP (XML plano → CSV)
 
 ```
-hr.xml (3 departments, 8 employees)
-    ↓
-[XML Parse] → rowTag="Department"
-    ↓
-[Flatten]
-  • explode(col("Employees.Employee"))
-  • Relationship mapping
-    ↓
-[Transformações]
-  • Type casting: INT, DECIMAL
-  • Composite key: DEPT_ID + EMP_ID
-    ↓
-[Validações]
-  • FK integrity (dept ↔ emp)
-  • Uniqueness checks
-    ↓
-hr.csv (8 registros + dept info)
+employees.xml
+    → spark.read.format("xml")
+    → EMPLOYEE_ID: Trim + Upper
+    → SALARY: ByteType + validação de range
+    → null checks + deduplicação
+    → emp_poc.csv
+```
+
+### Fluxo HR (XML hierárquico → CSV)
+
+```
+hr.xml  (rowTag="Department")
+    → explode(col("Employees.Employee"))
+    → DEPT_ID + EMP_ID: chave composta
+    → FK integrity (dept ↔ emp)
+    → hr.csv
 ```
 
 ---
 
-## 📋 Checklist de Execução
+## Importar no Microsoft Fabric
 
-- [ ] **Pré-requisitos instalados** (Python, PowerShell, Git)
-- [ ] **Repositório clonado** e `.venv` ativado
-- [ ] **Teste local executado** (`scripts/run_pyspark_10k.py`)
-- [ ] **Fabric Workspace preparado** com Lakehouse
-- [ ] **Dados XML uploaded** para `source/` no Lakehouse
-- [ ] **ZIPs de pipeline importados** (ou notebooks manualmente)
-- [ ] **Pipeline executado** e monitored
-- [ ] **Arquivos CSV validados** em `output/`
-- [ ] **Delta tables opcionais criadas** (para analytics)
+### Opção A — Pipeline via ZIP (recomendado)
 
----
+1. Acesse seu workspace Fabric
+2. **+ New → Data pipeline → Import** → selecione o ZIP em `pipelines/deliverables/`
+   - `pl_m_poc_xml_emp.zip` (ARM template) ou `pl_m_poc_xml_emp_FABRIC_DF.zip` (Fabric DF)
+3. Configure os parâmetros de Lakehouse
+4. Clique em **Run**
 
-## 🔧 Troubleshooting
+### Opção B — Notebooks manualmente
 
-### Erro: "Invalid ZIP format" ao importar
-
-→ Use os artefatos finais em `pipelines/deliverables/`. Os ZIPs `*_FABRIC_DF.zip` contêm somente `pipeline.json`; os JSONs standalone também estão disponíveis.
-
-### Erro: "Path not found" para XML
-
-→ Verifique caminho correto: `/lakehouse/default/Files/source/employees.xml`
-
-### Notebook não executa
-
-→ Verifique:
-1. Spark session está ativa
-2. Lakehouse está montado
-3. Caminho do arquivo está correto
-
-### CSV vazio na saída
-
-→ Valide:
-1. Arquivo XML origem tem dados
-2. Caminho de output está correto: `/lakehouse/default/Files/output/`
+1. **+ New → Import notebook** → selecione os `.ipynb` de `notebooks/`
+2. Execute na ordem: `03_Map_EMP` → `05_Map_HR`
+3. Verifique saída em `Files/output/` no Lakehouse
 
 ---
 
-## 📚 Documentação Adicional
+## Troubleshooting
 
-Consulte os guias em `docs/`:
+**"Invalid ZIP format"** → Use os ZIPs de `pipelines/deliverables/`. Não use os de `pipelines/schemas/` ou `pipelines/archive/`.
 
-| Guia | Descrição |
-|------|-----------|
-| `docs/FABRIC_IMPORT_GUIDE.md` | Instruções detalhadas de importação |
-| `docs/POWERcenter_TO_PYSPARK_MAPPING.md` | Equivalência Informatica ↔ PySpark |
-| `docs/FABRIC_QUICK_IMPORT_15MIN.md` | Setup rápido em 15 minutos |
-| `docs/NOTEBOOK_EXECUTION_GUIDE.md` | Execução de notebooks passo a passo |
-| `docs/TEST_RESULTS.md` | Resultados de validação |
+**"Path not found" para XML** → Caminho correto: `/lakehouse/default/Files/source/employees.xml`
+
+**Notebook não executa** → Verifique se o Lakehouse está montado e a Spark session está ativa.
+
+**Harness falha com erros de caminho** → Execute `python3 -m harness.runner --fix` para correções automáticas.
 
 ---
 
-## 🎯 Próximas Etapas
+## Documentação adicional
 
-1. **Escalar dados** → Use `scripts/generate_10k_demo.py` para testes com volume
-2. **Criar Delta tables** → Adicione Delta layer para analytics
-3. **Integrar Power BI** → Conecte Lakehouse a dashboards
-4. **Automatizar** → Configure refresh schedule do pipeline
-5. **Adicionar transformações** → Estenda lógica para casos reais
-
----
-
-## 📞 Suporte
-
-- **YouTube Tutorials:**
-  - [Flat XML Processing](https://www.youtube.com/watch?v=ypGDbtYLQKw)
-  - [Hierarchical XML Processing](https://www.youtube.com/watch?v=0aKBhwFPE-Y)
-
-- **Arquivos de referência:**
-  - `data/wf_m_poc_xml_emp.XML` — Workflow Informatica original
-  - `data/wf_m_poc_xml_hr.XML` — Workflow Informatica original
+| Documento | Conteúdo |
+|---|---|
+| [`START_HERE.md`](START_HERE.md) | Passo a passo completo do zero ao Fabric |
+| [`docs/FABRIC_IMPORT_GUIDE.md`](docs/FABRIC_IMPORT_GUIDE.md) | Importação detalhada no Fabric |
+| [`docs/POWERcenter_TO_PYSPARK_MAPPING.md`](docs/POWERcenter_TO_PYSPARK_MAPPING.md) | Equivalência Informatica ↔ PySpark |
+| [`docs/FABRIC_QUICK_IMPORT_15MIN.md`](docs/FABRIC_QUICK_IMPORT_15MIN.md) | Setup em 15 minutos |
+| [`docs/NOTEBOOK_EXECUTION_GUIDE.md`](docs/NOTEBOOK_EXECUTION_GUIDE.md) | Execução de notebooks |
+| [`docs/EXECUTION_GUIDE.md`](docs/EXECUTION_GUIDE.md) | Guia de execução dos workflows |
 
 ---
 
-## 📄 Licença
+## Próximas etapas
 
-Projeto para fins educacionais e de demonstração.
+1. **Escalar** → `scripts/generate_10k_demo.py` para teste com volume
+2. **Delta tables** → `scripts/fabric_import_notebook.py` cria tabelas Delta no Lakehouse
+3. **Power BI** → Conecte o Lakehouse a um relatório via Direct Lake
+4. **Agendamento** → Configure schedule no pipeline Fabric
 
-**Última atualização:** 2026-06-19 | **Versão:** 1.0
+---
+
+**Licença:** Projeto educacional e de demonstração.  
+**Última atualização:** 2026-06-19 | **Versão:** 2.0

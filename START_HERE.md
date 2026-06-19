@@ -1,333 +1,269 @@
-# 🚀 PowerCenter to Microsoft Fabric — Start Here
+# Passo a Passo — PowerCenter to Microsoft Fabric
 
-**Project:** Complete Migration of Informatica PowerCenter to Microsoft Fabric  
-**Status:** ✅ Production Ready | **Tests:** 17/17 PASSED | **Date:** 2026-06-19
-
-## ✅ Everything is Ready to Use
-
-Welcome! This repository contains a complete, tested, and production-ready migration framework for transforming Informatica PowerCenter workflows into Microsoft Fabric native pipelines.
+**Do clone ao pipeline rodando no Fabric em ~30 minutos.**
 
 ---
 
-## 📊 In 30 Seconds
-
-| What | Status | Details |
-|------|--------|---------|
-| **Workflows** | ✅ Running | Both workflows executed successfully |
-| **Tests** | ✅ Passing | 17/17 tests passed (100%) |
-| **Outputs** | ✅ Generated | 2 CSV files with 8 records each |
-| **Reports** | ✅ Available | HTML dashboard + detailed logs |
-| **Status** | ✅ Ready | **PRODUCTION READY** |
-
----
-
-## 🎯 What's Included
+## Visão geral do fluxo
 
 ```
-You have:
-✓ Complete workflow execution simulator
-✓ Comprehensive test suite (17 tests)
-✓ Sample data (XML inputs)
-✓ Generated outputs (CSV files)
-✓ Visual reports (HTML dashboard)
-✓ Detailed documentation
+Clone → Setup → Harness → Dados locais → Fabric → Pipeline
+  1        2       3           4            5         6
 ```
 
 ---
 
-## 📁 Key Files
+## Passo 1 — Clonar o repositório
 
-### 🔧 To Run Workflows
-```powershell
-.\scripts\run-informatica-poc.ps1 -WorkflowType all
-```
-- Simple XML processing (emp_poc.csv)
-- Hierarchical XML flattening (hr.csv)
-
-### 🧪 To Run Tests
-```powershell
-.\scripts\test-informatica-poc.ps1 -TestType all
-```
-- 17 comprehensive tests
-- Structure, data, integrity, performance checks
-- Takes ~1 second
-
-### 📊 To View Results
-```
-test-reports/test-report.html
-```
-- Open in any web browser
-- Visual dashboard with charts
-- All test results displayed
-
----
-
-## 🎓 Quick Learning Path
-
-### 1️⃣ First Time? Start Here
-1. Read this file (you're here!)
-2. Open `test-reports/test-report.html` in browser
-3. Read `docs/QUICK_REFERENCE.md` for commands
-
-### 2️⃣ Want Details?
-- Read `docs/TEST_RESULTS.md` for full test results
-- Read `docs/EXECUTION_GUIDE.md` for workflow details
-- Check `docs/INDEX.md` for project structure
-
-### 3️⃣ Ready to Execute?
-```powershell
-# Run everything
-.\scripts\run-informatica-poc.ps1 -WorkflowType all
-.\scripts\test-informatica-poc.ps1 -TestType all
+```bash
+git clone https://github.com/juliopessan/powercenter-microsoft-fabric.git
+cd powercenter-microsoft-fabric
 ```
 
 ---
 
-## 📈 Test Results Summary
+## Passo 2 — Preparar o ambiente (automático)
 
+```bash
+python3 scripts/setup_environment.py
 ```
-Test Suite                 Passed  Failed  Status
-─────────────────────────────────────────────────
-CSV Structure              2       0       ✓ PASS
-Data Validation            5       0       ✓ PASS
-Data Integrity             4       0       ✓ PASS
-Performance Metrics        3       0       ✓ PASS
-Input/Output Mapping       3       0       ✓ PASS
-─────────────────────────────────────────────────
-TOTAL                      17      0       ✓ 100%
+
+O script verifica e configura tudo automaticamente:
+
+| Item | Ação |
+|---|---|
+| Python 3.11+ | Verifica versão |
+| pip | Verifica instalação |
+| Git | Verifica instalação |
+| PowerShell | Verifica (opcional em Mac/Linux) |
+| Pacotes Python | Instala `requests`, `pandas`, `openpyxl`, `azure-identity` |
+| Pastas do projeto | Cria as que estiverem ausentes |
+| `.env` | Gera template se não existir |
+
+**Ao final você verá:**
+```
+✨ Ambiente pronto! Execute os notebooks no Fabric.
+```
+
+Se algum item falhar, o script indica exatamente o que fazer.
+
+---
+
+## Passo 3 — Instalar o pre-commit hook
+
+```bash
+python3 scripts/install_hooks.py
+```
+
+A partir daí, o harness roda automaticamente antes de cada `git commit` e bloqueia se encontrar erros.
+
+Para rodar o harness manualmente a qualquer momento:
+
+```bash
+python3 -m harness.runner
+```
+
+Todos os 7 specs devem estar ✅ antes de continuar.
+
+---
+
+## Passo 4 — Preencher o `.env`
+
+Abra o arquivo `.env` gerado pelo setup e preencha com as credenciais do seu tenant Azure:
+
+```env
+FABRIC_TENANT_ID=<seu-tenant-id>
+FABRIC_CLIENT_ID=<seu-client-id>
+FABRIC_CLIENT_SECRET=<seu-client-secret>
+FABRIC_WORKSPACE_ID=<seu-workspace-id>
+FABRIC_LAKEHOUSE_ID=<seu-lakehouse-id>
+```
+
+Onde encontrar esses valores:
+- **TENANT_ID / CLIENT_ID / CLIENT_SECRET** → Azure Portal → Entra ID → App Registrations
+- **WORKSPACE_ID** → URL do Fabric (`app.fabric.microsoft.com/groups/<id>`)
+- **LAKEHOUSE_ID** → Fabric workspace → clique no Lakehouse → copie o ID da URL
+
+---
+
+## Passo 5 — Validar dados localmente (opcional)
+
+```bash
+# Gera 10.000 registros sintéticos sem precisar de Spark
+python3 scripts/generate_10k_demo.py
+```
+
+Saída esperada em `output/hr_poc_10k/hr_poc_10k_data.csv`.
+
+```bash
+# Valida os ZIPs de pipeline
+python3 pipelines/validation/validate_zips.py
+```
+
+Todos os 4 ZIPs devem retornar ✅.
+
+---
+
+## Passo 6 — Preparar o Microsoft Fabric
+
+### 6.1 Criar o Lakehouse
+
+1. Acesse [app.fabric.microsoft.com](https://app.fabric.microsoft.com)
+2. Abra seu workspace
+3. **+ New → Lakehouse**
+4. Nome sugerido: `informatica_poc`
+5. Aguarde a criação (< 1 minuto)
+
+### 6.2 Fazer upload dos XMLs de entrada
+
+No Lakehouse criado:
+
+1. Clique em **Files** (painel esquerdo)
+2. Crie a pasta `source/` (botão **...** → **New folder**)
+3. Faça upload dos arquivos:
+   - `data/employees.xml`
+   - `data/hr.xml`
+
+Estrutura esperada no Lakehouse:
+```
+Files/
+└── source/
+    ├── employees.xml
+    └── hr.xml
 ```
 
 ---
 
-## 🔍 What Was Tested
+## Passo 7 — Importar os notebooks
 
-### CSV Structure
-✓ Files exist  
-✓ Headers match schema  
-✓ Columns correct  
+1. No workspace, clique em **+ New → Import notebook**
+2. Selecione os notebooks na ordem:
 
-### Data Quality
-✓ 8 employee records loaded  
-✓ No null values  
-✓ All salaries are numbers  
-✓ 3 departments found  
+| Ordem | Arquivo | Propósito |
+|---|---|---|
+| 1 | `notebooks/03_Map_EMP_Source_to_Target.ipynb` | Transforma XML EMP → CSV |
+| 2 | `notebooks/05_Map_HR_Source_to_Target.ipynb` | Transforma XML HR → CSV |
 
-### Data Integrity
-✓ Counts match between files  
-✓ Salaries consistent  
-✓ No duplicates  
-✓ Foreign keys valid  
-
-### Performance
-✓ File sizes optimal (< 1 KB)  
-✓ Load time fast (42.86 ms)  
-
-### Transformation
-✓ XML → CSV conversion perfect  
-✓ Hierarchical flattening works  
-✓ 100% data preservation  
+3. Em cada notebook importado, clique em **Add Lakehouse** e selecione `informatica_poc`
 
 ---
 
-## 📊 Output Files
+## Passo 8 — Importar o pipeline
 
-| File | Size | Records | Status |
-|------|------|---------|--------|
-| emp_poc.csv | 0.44 KB | 8 | ✓ Generated |
-| hr.csv | 0.57 KB | 8 | ✓ Generated |
+### Opção A — Pipeline ARM template (recomendado para Fabric Data Factory)
 
----
+1. No workspace: **+ New → Data pipeline**
+2. Clique em **Import** (ou **...** → **Import from file**)
+3. Selecione o ZIP:
+   - Para EMP: `pipelines/deliverables/pl_m_poc_xml_emp.zip`
+   - Para HR:  `pipelines/deliverables/pl_m_poc_xml_hr.zip`
+4. O Fabric reconhece automaticamente o ARM template e cria as atividades
 
-## 🎯 Common Commands
+### Opção B — Formato Fabric DF nativo
 
-### Execute Workflows
-```powershell
-# Run all workflows
-.\scripts\run-informatica-poc.ps1
-
-# Run specific workflow
-.\scripts\run-informatica-poc.ps1 -WorkflowType emp
-.\scripts\run-informatica-poc.ps1 -WorkflowType hr
-```
-
-### Run Tests
-```powershell
-# Run all tests
-.\scripts\test-informatica-poc.ps1
-
-# Run specific test suite
-.\scripts\test-informatica-poc.ps1 -TestType structure
-.\scripts\test-informatica-poc.ps1 -TestType data
-.\scripts\test-informatica-poc.ps1 -TestType integrity
-.\scripts\test-informatica-poc.ps1 -TestType performance
-```
-
-### View Results
-```powershell
-# See latest test results
-Get-Content .\test-reports\test-report_*.log -Tail 30
-
-# List output files
-Get-ChildItem .\output\ -File
-```
+Use os arquivos com sufixo `_FABRIC_DF`:
+- `pipelines/deliverables/pl_m_poc_xml_emp_FABRIC_DF.zip`
+- `pipelines/deliverables/pl_m_poc_xml_hr_FABRIC_DF.zip`
 
 ---
 
-## ✨ Key Features
+## Passo 9 — Executar e validar
 
-### ✅ Workflows
-- XML parsing (simple structure)
-- XML parsing (hierarchical structure)
-- Data transformation
-- CSV export
+### Executar o pipeline
 
-### ✅ Tests
-- 17 comprehensive tests
-- 5 test suites
-- 100% pass rate
-- Clear reporting
+1. Abra o pipeline importado
+2. Clique em **Run** → **Save and run**
+3. Monitore em **Run history** (painel inferior)
 
-### ✅ Reports
-- Visual HTML dashboard
-- Detailed text logs
-- Test metrics
-- Data samples
+### Verificar os arquivos de saída
 
-### ✅ Documentation
-- Quick reference guide
-- Execution guide
-- Test results
-- Project structure
-- This START guide
+Após execução bem-sucedida, os CSVs estarão em:
+
+```
+Files/
+├── source/
+│   ├── employees.xml  ✓
+│   └── hr.xml         ✓
+└── output/
+    ├── emp_poc.csv    ✓  (8 registros)
+    └── hr.csv         ✓  (8 registros)
+```
+
+### Criar Delta tables (opcional)
+
+Execute o notebook `scripts/fabric_import_notebook.py` no Fabric para criar Delta tables a partir dos CSVs — isso habilita analytics via Power BI Direct Lake.
 
 ---
 
-## 🚀 Next Steps
+## Checklist completo
 
-### Option 1: View Results (Fastest)
 ```
-1. Open: test-reports/test-report.html
-2. Read: docs/TEST_RESULTS.md
-3. Done!
-```
+Ambiente local
+  [ ] python3 scripts/setup_environment.py  → ✨ Ambiente pronto
+  [ ] python3 scripts/install_hooks.py      → hook instalado
+  [ ] python3 -m harness.runner             → 7/7 specs ✅
+  [ ] .env preenchido com credenciais Azure
 
-### Option 2: Run Tests Again
-```powershell
-# Re-run all workflows and tests
-.\scripts\run-informatica-poc.ps1 -WorkflowType all
-.\scripts\test-informatica-poc.ps1 -TestType all
-```
+Dados locais (opcional)
+  [ ] python3 scripts/generate_10k_demo.py  → output/hr_poc_10k/
+  [ ] python3 pipelines/validation/validate_zips.py → 4/4 ZIPs ✅
 
-### Option 3: Deep Dive
-```
-1. Read docs/EXECUTION_GUIDE.md
-2. Read docs/TEST_RESULTS.md
-3. Read docs/INDEX.md
-4. Run workflows manually
-5. Modify test scripts if needed
+Microsoft Fabric
+  [ ] Lakehouse criado (informatica_poc)
+  [ ] employees.xml e hr.xml em Files/source/
+  [ ] Notebooks 03 e 05 importados e Lakehouse vinculado
+  [ ] Pipeline importado (ARM ou Fabric DF)
+  [ ] Pipeline executado com sucesso
+  [ ] CSVs validados em Files/output/
+  [ ] Delta tables criadas (opcional)
 ```
 
 ---
 
-## 💡 Tips
+## Comandos de referência rápida
 
-- **Visual Results?** Open `test-reports/test-report.html` in browser
-- **Need Quick Commands?** See `docs/QUICK_REFERENCE.md`
-- **Want Full Details?** Read `docs/TEST_RESULTS.md`
-- **Need Project Overview?** Check `docs/INDEX.md`
-- **Workflow Details?** See `docs/EXECUTION_GUIDE.md`
+```bash
+# Setup
+python3 scripts/setup_environment.py   # prepara ambiente
+python3 scripts/install_hooks.py       # instala pre-commit hook
 
----
+# Qualidade
+python3 -m harness.runner              # roda todos os specs
+python3 -m harness.runner --fix        # corrige problemas simples
+python3 -m harness.runner --ci         # modo CI (exit 1 em erros)
 
-## ✅ Quality Assurance
+# Validação
+python3 pipelines/validation/validate_zips.py        # valida estrutura dos ZIPs
+python3 pipelines/validation/validate_final_zips.py  # valida ZIPs + ARM template
 
-All critical checks passed:
-
-```
-Data Integrity:         100% ✓
-Record Count:           100% ✓
-Data Consistency:       100% ✓
-Transformation Success: 100% ✓
-Performance:            ✓ GOOD
+# Dados
+python3 scripts/generate_10k_demo.py   # gera dados de teste sem Spark
 ```
 
 ---
 
-## 🎓 Project Structure
+## Troubleshooting
 
-```
-Informatica-Scenarios/
-├── scripts/
-│   ├── run-informatica-poc.ps1        (Execute workflows)
-│   └── test-informatica-poc.ps1       (Run tests)
-│
-├── data/
-│   ├── employees.xml                  (Input)
-│   └── hr.xml                         (Input)
-│
-├── output/
-│   ├── output/emp_poc.csv             (Generated)
-│   └── output/hr.csv                  (Generated)
-│
-├── pipelines/
-│   ├── deliverables/                  (Fabric-ready JSON/ZIP files)
-│   ├── schemas/                       (Pipeline source schemas)
-│   ├── validation/                    (Validation scripts/reports)
-│   ├── reference/                     (Reference model ZIP)
-│   └── archive/                       (Legacy extracted artifacts)
-│
-├── docs/
-    ├── QUICK_REFERENCE.md             (Commands)
-    ├── TEST_RESULTS.md                (Results)
-    ├── EXECUTION_GUIDE.md             (Workflows)
-    └── INDEX.md                       (Overview)
-│
-├── START_HERE.md                      (This file)
-└── README.md                          (Project overview)
-```
+**Setup falha em Python** → Instale Python 3.11+ em [python.org/downloads](https://python.org/downloads)
+
+**Harness bloqueia o commit** → Execute `python3 -m harness.runner` para ver os erros detalhados e corrija-os antes de commitar.
+
+**"Invalid ZIP" no Fabric** → Use os ZIPs de `pipelines/deliverables/`. Não tente importar os de `pipelines/schemas/` ou `pipelines/archive/`.
+
+**"Path not found"** → Confirme que os XMLs estão em `Files/source/` (não na raiz do Lakehouse).
+
+**Notebook sem output** → Verifique se o Lakehouse está montado (ícone ⚡ ao lado do nome do Lakehouse no notebook).
+
+**`.env` com chaves vazias** → O harness avisa mas não bloqueia. Preencha antes de executar scripts que conectam no Fabric.
 
 ---
 
-## 🎯 Success Criteria (All Met!)
+## Suporte
 
-- ✅ Workflows execute without errors
-- ✅ All data transforms correctly
-- ✅ Output files are valid CSVs
-- ✅ Data integrity verified
-- ✅ Performance acceptable
-- ✅ All tests pass
-- ✅ Reports generated
-- ✅ Documentation complete
+- Tutoriais: [EMP](https://www.youtube.com/watch?v=ypGDbtYLQKw) · [HR](https://www.youtube.com/watch?v=0aKBhwFPE-Y)
+- Guias detalhados: `docs/`
+- Issues: [github.com/juliopessan/powercenter-microsoft-fabric/issues](https://github.com/juliopessan/powercenter-microsoft-fabric/issues)
 
 ---
 
-## 📞 Support
-
-**Everything is working!** If you need to:
-
-- **Run tests again:** `.\scripts\test-informatica-poc.ps1 -TestType all`
-- **See results:** Open `test-reports/test-report.html`
-- **Check logs:** `Get-Content .\test-reports\test-report_*.log`
-- **Get commands:** Read `docs/QUICK_REFERENCE.md`
-
----
-
-## 🎉 Conclusion
-
-**Your Informatica POC is fully tested and ready for production!**
-
-- ✅ 17/17 tests passed
-- ✅ 100% success rate
-- ✅ All outputs verified
-- ✅ Complete documentation
-- ✅ Ready to deploy
-
-**Next action:** Open `test-reports/test-report.html` to see the visual dashboard!
-
----
-
-**Last Updated:** 2026-06-16  
-**Status:** ✅ PRODUCTION READY  
-**Tests:** 17/17 PASSED  
-
-Happy testing! 🚀
+**Última atualização:** 2026-06-19 | **Versão:** 2.0
