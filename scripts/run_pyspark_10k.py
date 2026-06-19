@@ -5,7 +5,7 @@ Generates 10,000 synthetic employee records with departmental hierarchy
 """
 
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, lit, concat, floor, rand, when
+from pyspark.sql.functions import col, lit, concat, floor, rand, when, min as spark_min, max as spark_max, avg as spark_avg
 import os
 from datetime import datetime
 
@@ -92,9 +92,11 @@ print(f"  Staff (with manager): {staff}")
 
 # Check salary range
 salary_agg = df_joined.agg(
-    {"SALARY": ["min", "max", "avg"]}
+    spark_min("SALARY").alias("min_salary"),
+    spark_max("SALARY").alias("max_salary"),
+    spark_avg("SALARY").alias("avg_salary")
 ).collect()[0]
-print(f"  Salary range: ${salary_agg[0]}-${salary_agg[1]} (avg: ${salary_agg[2]:.0f})")
+print(f"  Salary range: ${salary_agg['min_salary']}-${salary_agg['max_salary']} (avg: ${salary_agg['avg_salary']:.0f})")
 
 # Department distribution
 print("\n  Department distribution:")

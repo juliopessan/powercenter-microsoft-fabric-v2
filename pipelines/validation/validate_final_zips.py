@@ -90,17 +90,17 @@ def validate_zip(zip_path):
         return False
 
 def main():
-    base_dir = r"C:\Users\julio.cesar.d.pessan\Informatica-Scenarios\pipelines"
-    os.chdir(base_dir)
-    
+    base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "deliverables")
+    base_dir = os.path.normpath(base_dir)
+
     print("🔍 Validação Final dos ZIPs com pipeline.json CORRETO (ARM Template Format)")
     print("=" * 70)
-    
+
     zip_files = [
         "pl_m_poc_xml_emp.zip",
         "pl_m_poc_xml_hr.zip"
     ]
-    
+
     results = {}
     for zip_file in zip_files:
         zip_path = os.path.join(base_dir, zip_file)

@@ -102,11 +102,11 @@ def validate_fabric_zip(zip_path):
 def main():
     """Script principal"""
     
-    pipeline_dir = Path(__file__).parent
+    pipeline_dir = Path(__file__).parent.parent / "deliverables"
     zip_files = list(pipeline_dir.glob("pl_*.zip"))
-    
+
     if not zip_files:
-        print("❌ Nenhum arquivo ZIP encontrado em pipelines/")
+        print(f"❌ Nenhum arquivo ZIP encontrado em {pipeline_dir}")
         sys.exit(1)
     
     print(f"\n🔍 Encontrados {len(zip_files)} arquivo(s) ZIP")
