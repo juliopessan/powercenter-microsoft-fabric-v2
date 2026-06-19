@@ -6,6 +6,7 @@
   "author": "Informatica Migration Team",
   "environment": "Microsoft Fabric",
   "type": "Pipeline",
+  "pipelineFile": "pl_m_poc_xml_hr_FABRIC_DF_ARM.json",
   "icons": [
     "NotebookActivity",
     "DataTransform"

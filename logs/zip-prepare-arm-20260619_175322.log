@@ -1,0 +1,28 @@
+[2026-06-19 17:53:22] [INFO] ========================================
+[2026-06-19 17:53:22] [INFO] FABRIC ZIP PREPARATION (ARM Template)
+[2026-06-19 17:53:22] [INFO] ========================================
+[2026-06-19 17:53:22] [INFO] Pipeline: all
+[2026-06-19 17:53:22] [INFO] Output Dir: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\pipelines\deliverables\fabric-ready
+[2026-06-19 17:53:22] [INFO] 
+[2026-06-19 17:53:22] [INFO] --- Processing EMP Pipeline (ARM Template) ---
+[2026-06-19 17:53:22] [INFO] Creating Fabric ZIP for: pl_m_poc_xml_emp
+[2026-06-19 17:53:22] [INFO] Packaged: manifest.json, pl_m_poc_xml_emp.json
+[2026-06-19 17:53:22] [ERROR] ERROR: Exceção ao chamar "Open" com "2" argumento(s): "O arquivo 'C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\pipelines\deliverables\fabric-ready\pl_m_poc_xml_emp_FABRIC.zip' já existe."
+[2026-06-19 17:53:22] [INFO] 
+[2026-06-19 17:53:22] [INFO] --- Processing HR Pipeline (ARM Template) ---
+[2026-06-19 17:53:22] [INFO] Creating Fabric ZIP for: pl_m_poc_xml_hr
+[2026-06-19 17:53:22] [INFO] Packaged: manifest.json, pl_m_poc_xml_hr.json
+[2026-06-19 17:53:22] [ERROR] ERROR: Exceção ao chamar "Open" com "2" argumento(s): "O arquivo 'C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\pipelines\deliverables\fabric-ready\pl_m_poc_xml_hr_FABRIC.zip' já existe."
+[2026-06-19 17:53:23] [INFO] 
+[2026-06-19 17:53:23] [INFO] ========================================
+[2026-06-19 17:53:23] [INFO] SUMMARY
+[2026-06-19 17:53:23] [INFO] ========================================
+[2026-06-19 17:53:23] [INFO] Successes: 0
+[2026-06-19 17:53:23] [INFO] Failures: 2
+[2026-06-19 17:53:23] [INFO] Output Location: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\pipelines\deliverables\fabric-ready
+[2026-06-19 17:53:23] [INFO] 
+[2026-06-19 17:53:23] [INFO] [OK] Ready for Fabric Import (ARM Templates):
+[2026-06-19 17:53:23] [INFO]   [OK] pl_m_poc_xml_emp_FABRIC.zip (1.46 KB)
+[2026-06-19 17:53:23] [INFO]   [OK] pl_m_poc_xml_hr_FABRIC.zip (1.63 KB)
+[2026-06-19 17:53:23] [INFO] 
+[2026-06-19 17:53:23] [INFO] Log file: C:\Users\julio.cesar.d.pessan\powercenter-microsoft-fabric\logs\zip-prepare-arm-20260619_175322.log
