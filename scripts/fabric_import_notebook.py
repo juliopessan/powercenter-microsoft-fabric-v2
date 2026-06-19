@@ -254,8 +254,8 @@ print("VERIFYING DELTA TABLES")
 print("═" * 60)
 
 # Consultar tabelas via SQL
-emp_count = spark.sql(f"SELECT COUNT(*) as count FROM {TABLE_EMP}").collect()[0][0]
-hr_count = spark.sql(f"SELECT COUNT(*) as count FROM {TABLE_HR}").collect()[0][0]
+emp_count = spark.sql(f"SELECT COUNT(*) as count FROM {TABLE_EMP}").collect()[0]["count"]
+hr_count = spark.sql(f"SELECT COUNT(*) as count FROM {TABLE_HR}").collect()[0]["count"]
 
 print(f"\n✓ {TABLE_EMP}: {emp_count} rows")
 print(f"✓ {TABLE_HR}: {hr_count} rows")

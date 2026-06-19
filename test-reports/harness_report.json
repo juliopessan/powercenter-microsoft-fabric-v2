@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-06-19T17:59:29.443590",
+  "passed": true,
+  "summary": {
+    "specs": 7,
+    "findings": 5,
+    "errors": 0,
+    "warnings": 5
+  },
+  "specs": [
+    {
+      "name": "ProjectStructure",
+      "passed": true,
+      "checked": 20,
+      "findings": []
+    },
+    {
+      "name": "PythonSyntax",
+      "passed": true,
+      "checked": 19,
+      "findings": []
+    },
+    {
+      "name": "PathSafety",
+      "passed": true,
+      "checked": 7,
+      "findings": []
+    },
+    {
+      "name": "PySparkAPI",
+      "passed": true,
+      "checked": 2,
+      "findings": []
+    },
+    {
+      "name": "ZipStructure",
+      "passed": true,
+      "checked": 4,
+      "findings": []
+    },
+    {
+      "name": "EnvVars",
+      "passed": true,
+      "checked": 1,
+      "findings": [
+        {
+          "severity": "WARNING",
+          "file": ".env",
+          "line": 0,
+          "message": "Chave 'FABRIC_TENANT_ID' existe mas está vazia — preencha antes de executar"
+        },
+        {
+          "severity": "WARNING",
+          "file": ".env",
+          "line": 0,
+          "message": "Chave 'FABRIC_CLIENT_ID' existe mas está vazia — preencha antes de executar"
+        },
+        {
+          "severity": "WARNING",
+          "file": ".env",
+          "line": 0,
+          "message": "Chave 'FABRIC_CLIENT_SECRET' existe mas está vazia — preencha antes de executar"
+        },
+        {
+          "severity": "WARNING",
+          "file": ".env",
+          "line": 0,
+          "message": "Chave 'FABRIC_WORKSPACE_ID' existe mas está vazia — preencha antes de executar"
+        },
+        {
+          "severity": "WARNING",
+          "file": ".env",
+          "line": 0,
+          "message": "Chave 'FABRIC_LAKEHOUSE_ID' existe mas está vazia — preencha antes de executar"
+        }
+      ]
+    },
+    {
+      "name": "CsvColumns",
+      "passed": true,
+      "checked": 3,
+      "findings": []
+    }
+  ]
+}

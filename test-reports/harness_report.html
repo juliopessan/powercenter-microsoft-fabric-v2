@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Harness Report — PowerCenter to Fabric</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; }
+    header { background: #22c55e22; border-bottom: 2px solid #22c55e; padding: 24px 32px; }
+    h1 { margin: 0; font-size: 22px; }
+    .badge { display:inline-block; background:#22c55e; color:#fff; padding:4px 14px;
+              border-radius:999px; font-weight:700; font-size:14px; margin-left:12px; }
+    .meta { font-size:13px; color:#94a3b8; margin-top:8px; }
+    .summary { display:flex; gap:24px; padding:16px 32px; background:#1e293b; }
+    .card { background:#0f172a; border:1px solid #334155; border-radius:8px; padding:12px 20px; }
+    .card-val { font-size:28px; font-weight:700; }
+    .card-lbl { font-size:12px; color:#94a3b8; }
+    .err { color:#ef4444; } .warn { color:#f59e0b; } .ok { color:#22c55e; }
+    main { padding: 24px 32px; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th { text-align:left; padding:10px 12px; background:#1e293b; color:#94a3b8;
+          font-size:11px; text-transform:uppercase; letter-spacing:.05em; }
+    td { padding:10px 12px; border-bottom:1px solid #1e293b; vertical-align:top; }
+    tr:hover td { background:#1e293b22; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Harness Report — PowerCenter to Microsoft Fabric
+      <span class="badge">PASSOU</span>
+    </h1>
+    <div class="meta">2026-06-19T17:59:29.446381 &nbsp;·&nbsp; 7 specs</div>
+  </header>
+  <div class="summary">
+    <div class="card"><div class="card-val ok">0</div><div class="card-lbl">Erros</div></div>
+    <div class="card"><div class="card-val warn">5</div><div class="card-lbl">Avisos</div></div>
+    <div class="card"><div class="card-val">5</div><div class="card-lbl">Total findings</div></div>
+  </div>
+  <main>
+    <table>
+      <thead><tr><th>Spec</th><th>Severidade</th><th>Localização</th><th>Mensagem</th></tr></thead>
+      <tbody>
+            <tr>
+              <td>✅ ProjectStructure</td>
+              <td colspan="3" style="color:#22c55e">Sem findings — 20 itens verificados</td>
+            </tr>
+            <tr>
+              <td>✅ PythonSyntax</td>
+              <td colspan="3" style="color:#22c55e">Sem findings — 19 itens verificados</td>
+            </tr>
+            <tr>
+              <td>✅ PathSafety</td>
+              <td colspan="3" style="color:#22c55e">Sem findings — 7 itens verificados</td>
+            </tr>
+            <tr>
+              <td>✅ PySparkAPI</td>
+              <td colspan="3" style="color:#22c55e">Sem findings — 2 itens verificados</td>
+            </tr>
+            <tr>
+              <td>✅ ZipStructure</td>
+              <td colspan="3" style="color:#22c55e">Sem findings — 4 itens verificados</td>
+            </tr>
+            <tr>
+              <td>✅ EnvVars</td>
+              <td style="color:#f59e0b;font-weight:600">Severity.WARNING</td>
+              <td style="font-family:monospace;font-size:12px">.env</td>
+              <td>Chave 'FABRIC_TENANT_ID' existe mas está vazia — preencha antes de executar</td>
+            </tr>
+            <tr>
+              <td>✅ EnvVars</td>
+              <td style="color:#f59e0b;font-weight:600">Severity.WARNING</td>
+              <td style="font-family:monospace;font-size:12px">.env</td>
+              <td>Chave 'FABRIC_CLIENT_ID' existe mas está vazia — preencha antes de executar</td>
+            </tr>
+            <tr>
+              <td>✅ EnvVars</td>
+              <td style="color:#f59e0b;font-weight:600">Severity.WARNING</td>
+              <td style="font-family:monospace;font-size:12px">.env</td>
+              <td>Chave 'FABRIC_CLIENT_SECRET' existe mas está vazia — preencha antes de executar</td>
+            </tr>
+            <tr>
+              <td>✅ EnvVars</td>
+              <td style="color:#f59e0b;font-weight:600">Severity.WARNING</td>
+              <td style="font-family:monospace;font-size:12px">.env</td>
+              <td>Chave 'FABRIC_WORKSPACE_ID' existe mas está vazia — preencha antes de executar</td>
+            </tr>
+            <tr>
+              <td>✅ EnvVars</td>
+              <td style="color:#f59e0b;font-weight:600">Severity.WARNING</td>
+              <td style="font-family:monospace;font-size:12px">.env</td>
+              <td>Chave 'FABRIC_LAKEHOUSE_ID' existe mas está vazia — preencha antes de executar</td>
+            </tr>
+            <tr>
+              <td>✅ CsvColumns</td>
+              <td colspan="3" style="color:#22c55e">Sem findings — 3 itens verificados</td>
+            </tr></tbody>
+    </table>
+  </main>
+</body>
+</html>
