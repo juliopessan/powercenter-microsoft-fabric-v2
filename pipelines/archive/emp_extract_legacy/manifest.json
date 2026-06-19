@@ -1,0 +1,10 @@
+﻿{
+  "name": "pl_m_poc_xml_emp",
+  "displayName": "Informatica POC - Employee XML Pipeline",
+  "description": "Transforms employee XML data to CSV format",
+  "version": "1.0.0",
+  "author": "Informatica Migration Team",
+  "type": "pipeline",
+  "created": "2026-06-19T13:00:00Z",
+  "environment": "Microsoft Fabric"
+}

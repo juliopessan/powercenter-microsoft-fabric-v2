@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatica POC - Test Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .stat-box {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .stat-box h3 {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-box .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-passed .value {
+            color: #28a745;
+        }
+        
+        .stat-failed .value {
+            color: #dc3545;
+        }
+        
+        .stat-skipped .value {
+            color: #ffc107;
+        }
+        
+        .stat-total .value {
+            color: #667eea;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .test-section {
+            margin-bottom: 40px;
+        }
+        
+        .test-section h2 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .test-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #ccc;
+        }
+        
+        .test-item.pass {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        .test-item.fail {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+        
+        .test-item.skip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        
+        .status-icon {
+            font-size: 1.5em;
+            margin-right: 15px;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .test-info {
+            flex: 1;
+        }
+        
+        .test-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .test-detail {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .test-time {
+            font-size: 0.85em;
+            color: #999;
+        }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .chart-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .chart-label {
+            min-width: 100px;
+            font-weight: 600;
+        }
+        
+        .chart-bar-fill {
+            flex: 1;
+            height: 30px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            margin: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .chart-value {
+            min-width: 50px;
+            text-align: right;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Informatica POC - Test Report</h1>
+            <p>Execution Date: 2026-06-16 | Status: PASSED</p>
+        </header>
+        
+        <div class="summary">
+            <div class="stat-box stat-passed">
+                <h3>Passed</h3>
+                <div class="value">17</div>
+            </div>
+            <div class="stat-box stat-failed">
+                <h3>Failed</h3>
+                <div class="value">0</div>
+            </div>
+            <div class="stat-box stat-skipped">
+                <h3>Skipped</h3>
+                <div class="value">0</div>
+            </div>
+            <div class="stat-box stat-total">
+                <h3>Total</h3>
+                <div class="value">17</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Chart -->
+            <div class="chart-container">
+                <div class="chart-title">Test Results Distribution</div>
+                <div class="chart-bar">
+                    <div class="chart-label">Passed</div>
+                    <div class="chart-bar-fill" style="width: 100%; background: linear-gradient(90deg, #28a745, #20c997);">100%</div>
+                    <div class="chart-value">17/17</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-label">Failed</div>
+                    <div class="chart-bar-fill" style="width: 0%; background: linear-gradient(90deg, #dc3545, #c82333);">0%</div>
+                    <div class="chart-value">0/17</div>
+                </div>
+            </div>
+            
+            <!-- Test Suites -->
+            <div class="test-section">
+                <h2>1. CSV Structure Validation</h2>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T1.1-EMP-FILE</div>
+                        <div class="test-detail">emp_poc.csv exists</div>
+                    </div>
+                    <div class="test-time">16:01:50</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T1.3-HR-FILE</div>
+                        <div class="test-detail">hr.csv exists</div>
+                    </div>
+                    <div class="test-time">16:01:50</div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h2>2. Data Validation</h2>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T2.1-EMP-ROWCOUNT</div>
+                        <div class="test-detail">8 records found</div>
+                    </div>
+                    <div class="test-time">16:01:50</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T2.2-EMP-NO-NULLS</div>
+                        <div class="test-detail">No null values found</div>
+                    </div>
+                    <div class="test-time">16:01:50</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T2.3-EMP-SALARY-TYPE</div>
+                        <div class="test-detail">All salaries are valid numbers</div>
+                    </div>
+                    <div class="test-time">16:01:50</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T2.4-HR-ROWCOUNT</div>
+                        <div class="test-detail">8 flattened records found</div>
+                    </div>
+                    <div class="test-time">16:01:50</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T2.5-HR-DEPTS</div>
+                        <div class="test-detail">3 departments OK</div>
+                    </div>
+                    <div class="test-time">16:01:50</div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h2>3. Data Integrity</h2>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T3.1-EMP-COUNT-MATCH</div>
+                        <div class="test-detail">8 employees in both datasets</div>
+                    </div>
+                    <div class="test-time">16:01:50</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T3.2-SALARY-CONSISTENCY</div>
+                        <div class="test-detail">Salaries consistent across datasets</div>
+                    </div>
+                    <div class="test-time">16:01:51</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T3.3-NO-DUP-EMPID</div>
+                        <div class="test-detail">No duplicate EMPLOYEE_IDs</div>
+                    </div>
+                    <div class="test-time">16:01:51</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T3.4-FK-VALIDITY</div>
+                        <div class="test-detail">All foreign keys valid</div>
+                    </div>
+                    <div class="test-time">16:01:51</div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h2>4. Performance</h2>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T4.1-EMP-SIZE</div>
+                        <div class="test-detail">emp_poc.csv = 0.44 KB</div>
+                    </div>
+                    <div class="test-time">16:01:51</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T4.2-HR-SIZE</div>
+                        <div class="test-detail">hr.csv = 0.57 KB</div>
+                    </div>
+                    <div class="test-time">16:01:51</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T4.3-EMP-LOAD-TIME</div>
+                        <div class="test-detail">Load time 42.86 ms</div>
+                    </div>
+                    <div class="test-time">16:01:51</div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h2>5. Input/Output Comparison</h2>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T5.1-EMP-COUNT-MATCH</div>
+                        <div class="test-detail">8 records XML = 8 CSV</div>
+                    </div>
+                    <div class="test-time">16:01:51</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T5.2-NAME-MAPPING</div>
+                        <div class="test-detail">Names mapped correctly</div>
+                    </div>
+                    <div class="test-time">16:01:51</div>
+                </div>
+                <div class="test-item pass">
+                    <div class="status-icon">✓</div>
+                    <div class="test-info">
+                        <div class="test-name">T5.3-DEPT-FLATTEN</div>
+                        <div class="test-detail">3 departments after flattening</div>
+                    </div>
+                    <div class="test-time">16:01:51</div>
+                </div>
+            </div>
+            
+            <div class="test-section" style="background: #d4edda; padding: 20px; border-radius: 8px; border-left: 4px solid #28a745;">
+                <h2 style="border-bottom: none; margin-bottom: 15px; color: #155724;">Executive Summary</h2>
+                <p style="color: #155724; font-weight: 500;">
+                    ✓ <strong>All tests PASSED (17/17)</strong><br>
+                    ✓ CSV structure is valid and complete<br>
+                    ✓ Data integrity verified across all records<br>
+                    ✓ Performance metrics within acceptable ranges<br>
+                    ✓ XML to CSV transformation successful<br>
+                    <br>
+                    <strong>Status: PRODUCTION READY</strong>
+                </p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Informatica POC Test Suite | Generated: 2026-06-16 16:01:51</p>
+            <p>For detailed logs, see: test-reports/test-report_*.log</p>
+        </footer>
+    </div>
+</body>
+</html>

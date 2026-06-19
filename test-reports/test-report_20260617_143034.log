@@ -1,0 +1,28 @@
+==========================================
+TEST REPORT - 20260617_143034
+Test Type: all
+==========================================
+
+[2026-06-17 14:30:34] [PASS] T1.1-EMP-FILE - emp_poc.csv exists
+[2026-06-17 14:30:34] [PASS] T1.3-HR-FILE - hr.csv exists
+[2026-06-17 14:30:34] [PASS] T2.1-EMP-ROWCOUNT - 8 records found
+[2026-06-17 14:30:34] [PASS] T2.2-EMP-NO-NULLS - No null values found
+[2026-06-17 14:30:34] [PASS] T2.3-EMP-SALARY-TYPE - All salaries are valid numbers
+[2026-06-17 14:30:34] [PASS] T2.4-HR-ROWCOUNT - 14 flattened records found (3 levels hierarchy)
+[2026-06-17 14:30:34] [PASS] T2.5-HR-DEPTS - 3 departments OK
+[2026-06-17 14:30:34] [PASS] T3.1-EMP-COUNT-MATCH - 8 employees in emp, 14 in hr hierarchy
+[2026-06-17 14:30:34] [PASS] T3.2-SALARY-CONSISTENCY - Salaries consistent where IDs match
+[2026-06-17 14:30:34] [PASS] T3.3-NO-DUP-EMPID - No duplicate EMPLOYEE_IDs
+[2026-06-17 14:30:34] [PASS] T3.4-FK-VALIDITY - All foreign keys valid
+[2026-06-17 14:30:34] [PASS] T4.1-EMP-SIZE - emp_poc.csv = 0,44 KB
+[2026-06-17 14:30:34] [PASS] T4.2-HR-SIZE - hr.csv = 1,00 KB
+[2026-06-17 14:30:34] [PASS] T4.3-EMP-LOAD-TIME - Load time 19,08 ms
+[2026-06-17 14:30:34] [PASS] T5.1-EMP-COUNT-MATCH - 8 records XML = 8 CSV
+[2026-06-17 14:30:34] [PASS] T5.2-NAME-MAPPING - Names mapped correctly
+[2026-06-17 14:30:34] [PASS] T5.3-DEPT-FLATTEN - 3 departments after flattening
+
+TEST SUMMARY
+PASSED:  17
+FAILED:  0
+SKIPPED: 0
+TOTAL:   17

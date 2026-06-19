@@ -1,0 +1,224 @@
+{
+  "name": "pl_m_poc_xml_hr",
+  "id": "/pipelines/pl_m_poc_xml_hr",
+  "type": "Microsoft.DataFactory/factories/pipelines",
+  "properties": {
+    "description": "Fabric Data Factory pipeline converted from Informatica PowerCenter workflow wf_m_poc_xml_hr. Executes hierarchical HR XML transformation, validation, and optional scale notebook.",
+    "annotations": [
+      "Informatica",
+      "Migration",
+      "Fabric",
+      "PySpark",
+      "XML-to-CSV",
+      "Hierarchical"
+    ],
+    "parameters": {
+      "LAKEHOUSE_PATH": {
+        "type": "String",
+        "defaultValue": "/lakehouse/default/Files"
+      },
+      "SOURCE_FILE": {
+        "type": "String",
+        "defaultValue": "hr.xml"
+      },
+      "TARGET_LOCATION": {
+        "type": "String",
+        "defaultValue": "hr_poc_target"
+      },
+      "RUN_SCALE_10K": {
+        "type": "Bool",
+        "defaultValue": false
+      }
+    },
+    "activities": [
+      {
+        "name": "Execute_HR_Map",
+        "type": "SynapseNotebook",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.00:30:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 300,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "05_Map_HR_Source_to_Target",
+            "type": "NotebookReference"
+          },
+          "parameters": {
+            "LAKEHOUSE_PATH": {
+              "value": "@pipeline().parameters.LAKEHOUSE_PATH",
+              "type": "Expression"
+            },
+            "SOURCE_FILE": {
+              "value": "@pipeline().parameters.SOURCE_FILE",
+              "type": "Expression"
+            },
+            "TARGET_LOCATION": {
+              "value": "@pipeline().parameters.TARGET_LOCATION",
+              "type": "Expression"
+            }
+          }
+        }
+      },
+      {
+        "name": "Validate_HR_Data",
+        "type": "SynapseNotebook",
+        "dependsOn": [
+          {
+            "activity": "Execute_HR_Map",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:15:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 120,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "02_Workflow_Execution_EMP_and_HR",
+            "type": "NotebookReference"
+          },
+          "parameters": {
+            "workflow": {
+              "value": "wf_m_poc_xml_hr",
+              "type": "String"
+            },
+            "validation_mode": {
+              "value": "true",
+              "type": "String"
+            },
+            "check_hierarchy": {
+              "value": "true",
+              "type": "String"
+            }
+          }
+        }
+      },
+      {
+        "name": "Optional_Scale_to_10K",
+        "type": "SynapseNotebook",
+        "dependsOn": [
+          {
+            "activity": "Validate_HR_Data",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:20:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "04_PySpark_Large_Scale_Data_Generation",
+            "type": "NotebookReference"
+          },
+          "parameters": {
+            "scale_factor": {
+              "value": "10000",
+              "type": "String"
+            },
+            "workflow": {
+              "value": "wf_m_poc_xml_hr",
+              "type": "String"
+            },
+            "optional": {
+              "value": "@string(pipeline().parameters.RUN_SCALE_10K)",
+              "type": "Expression"
+            }
+          }
+        }
+      },
+      {
+        "name": "Handle_HR_Error",
+        "type": "SynapseNotebook",
+        "dependsOn": [
+          {
+            "activity": "Execute_HR_Map",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "02_Workflow_Execution_EMP_and_HR",
+            "type": "NotebookReference"
+          },
+          "parameters": {
+            "error_mode": {
+              "value": "true",
+              "type": "String"
+            },
+            "workflow": {
+              "value": "wf_m_poc_xml_hr",
+              "type": "String"
+            },
+            "failed_activity": {
+              "value": "Execute_HR_Map",
+              "type": "String"
+            }
+          }
+        }
+      },
+      {
+        "name": "Handle_HR_Validation_Error",
+        "type": "SynapseNotebook",
+        "dependsOn": [
+          {
+            "activity": "Validate_HR_Data",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "02_Workflow_Execution_EMP_and_HR",
+            "type": "NotebookReference"
+          },
+          "parameters": {
+            "error_mode": {
+              "value": "true",
+              "type": "String"
+            },
+            "workflow": {
+              "value": "wf_m_poc_xml_hr",
+              "type": "String"
+            },
+            "failed_activity": {
+              "value": "Validate_HR_Data",
+              "type": "String"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

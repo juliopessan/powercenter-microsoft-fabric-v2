@@ -1,0 +1,38 @@
+{
+  "name": "pl_m_poc_xml_emp",
+  "displayName": "Informatica POC - Employee XML Pipeline",
+  "description": "Transforms employee XML data to CSV format using PySpark. Parses flat XML structure, applies type conversions, validates data quality, and outputs to CSV.",
+  "version": "1.0.0",
+  "author": "Informatica Migration Team",
+  "environment": "Microsoft Fabric",
+  "type": "Pipeline",
+  "icons": [
+    "NotebookActivity",
+    "DataTransform"
+  ],
+  "requires": {
+    "linkedservices": {
+      "fabric_lakehouse": {
+        "supportTypes": [
+          "Lakehouse"
+        ]
+      }
+    }
+  },
+  "annotations": [
+    "Informatica",
+    "Migration",
+    "PySpark",
+    "XML-to-CSV"
+  ],
+  "services": [
+    "Microsoft Fabric"
+  ],
+  "categories": [
+    "Data Integration",
+    "ETL"
+  ],
+  "scope": [
+    "Fabric"
+  ]
+}

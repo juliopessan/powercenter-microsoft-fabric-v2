@@ -1,0 +1,40 @@
+{
+  "name": "pl_m_poc_xml_hr",
+  "displayName": "Informatica POC - HR XML Pipeline",
+  "description": "Transforms hierarchical HR XML data to flattened CSV format using PySpark. Processes departments and employees, applies type conversions, validates relationships, and outputs comprehensive HR data.",
+  "version": "1.0.0",
+  "author": "Informatica Migration Team",
+  "environment": "Microsoft Fabric",
+  "type": "Pipeline",
+  "icons": [
+    "NotebookActivity",
+    "DataTransform"
+  ],
+  "requires": {
+    "linkedservices": {
+      "fabric_lakehouse": {
+        "supportTypes": [
+          "Lakehouse"
+        ]
+      }
+    }
+  },
+  "annotations": [
+    "Informatica",
+    "Migration",
+    "PySpark",
+    "XML-to-CSV",
+    "Hierarchical"
+  ],
+  "services": [
+    "Microsoft Fabric"
+  ],
+  "categories": [
+    "Data Integration",
+    "ETL",
+    "HR"
+  ],
+  "scope": [
+    "Fabric"
+  ]
+}
