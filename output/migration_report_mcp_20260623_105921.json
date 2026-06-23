@@ -1,0 +1,184 @@
+{
+  "migration_id": "20260623_105921",
+  "workspace_name": "PowerCenter Migration",
+  "start_time": "2026-06-23T10:59:21.515804",
+  "phases": {
+    "phase1": {
+      "status": "completed_manual",
+      "steps": [
+        {
+          "action": "list_workspaces",
+          "tool": "mcp_fabricmcpserv_list_workspaces",
+          "instruction": "Verifique se workspace já existe",
+          "status": "manual"
+        },
+        {
+          "action": "create_workspace",
+          "tool": "mcp_fabricmcpserv_create_workspace",
+          "params": {
+            "displayName": "PowerCenter Migration",
+            "capacityId": null
+          },
+          "instruction": "Criar workspace se não existir",
+          "status": "manual"
+        },
+        {
+          "action": "create_lakehouse",
+          "tool": "mcp_fabricmcpserv_create_item",
+          "params": {
+            "type": "Lakehouse",
+            "displayName": "powercenter_lakehouse",
+            "description": "PowerCenter migration lakehouse"
+          },
+          "instruction": "Criar lakehouse no workspace",
+          "status": "manual"
+        }
+      ]
+    },
+    "phase2": {
+      "status": "completed_manual",
+      "files": [
+        {
+          "filename": "employees.xml",
+          "local_path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\employees.xml",
+          "remote_path": "Files/employees.xml",
+          "size_bytes": 1683,
+          "tool": "mcp_fabricmcpserv_update_item_definition",
+          "status": "manual"
+        },
+        {
+          "filename": "hr.xml",
+          "local_path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\hr.xml",
+          "remote_path": "Files/hr.xml",
+          "size_bytes": 3140,
+          "tool": "mcp_fabricmcpserv_update_item_definition",
+          "status": "manual"
+        },
+        {
+          "filename": "wf_m_poc_xml_emp.XML",
+          "local_path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\wf_m_poc_xml_emp.XML",
+          "remote_path": "Files/wf_m_poc_xml_emp.XML",
+          "size_bytes": 34680,
+          "tool": "mcp_fabricmcpserv_update_item_definition",
+          "status": "manual"
+        },
+        {
+          "filename": "wf_m_poc_xml_hr.XML",
+          "local_path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\wf_m_poc_xml_hr.XML",
+          "remote_path": "Files/wf_m_poc_xml_hr.XML",
+          "size_bytes": 44608,
+          "tool": "mcp_fabricmcpserv_update_item_definition",
+          "status": "manual"
+        }
+      ]
+    },
+    "phase3": {
+      "status": "completed_manual",
+      "notebooks": [
+        {
+          "name": "01_PowerCenter_to_PySpark_Translation.ipynb",
+          "local_path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\01_PowerCenter_to_PySpark_Translation.ipynb",
+          "display_name": "01_PowerCenter_to_PySpark_Translation",
+          "size_bytes": 48155,
+          "tools": [
+            "mcp_fabricmcpserv_create_item",
+            "mcp_fabricmcpserv_update_item_definition"
+          ],
+          "status": "manual"
+        },
+        {
+          "name": "02_Workflow_Execution_EMP_and_HR.ipynb",
+          "local_path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\02_Workflow_Execution_EMP_and_HR.ipynb",
+          "display_name": "02_Workflow_Execution_EMP_and_HR",
+          "size_bytes": 21952,
+          "tools": [
+            "mcp_fabricmcpserv_create_item",
+            "mcp_fabricmcpserv_update_item_definition"
+          ],
+          "status": "manual"
+        },
+        {
+          "name": "03_Map_EMP_Source_to_Target.ipynb",
+          "local_path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\03_Map_EMP_Source_to_Target.ipynb",
+          "display_name": "03_Map_EMP_Source_to_Target",
+          "size_bytes": 9006,
+          "tools": [
+            "mcp_fabricmcpserv_create_item",
+            "mcp_fabricmcpserv_update_item_definition"
+          ],
+          "status": "manual"
+        },
+        {
+          "name": "04_PySpark_Large_Scale_Data_Generation.ipynb",
+          "local_path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\04_PySpark_Large_Scale_Data_Generation.ipynb",
+          "display_name": "04_PySpark_Large_Scale_Data_Generation",
+          "size_bytes": 11330,
+          "tools": [
+            "mcp_fabricmcpserv_create_item",
+            "mcp_fabricmcpserv_update_item_definition"
+          ],
+          "status": "manual"
+        },
+        {
+          "name": "05_Map_HR_Source_to_Target.ipynb",
+          "local_path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\05_Map_HR_Source_to_Target.ipynb",
+          "display_name": "05_Map_HR_Source_to_Target",
+          "size_bytes": 12332,
+          "tools": [
+            "mcp_fabricmcpserv_create_item",
+            "mcp_fabricmcpserv_update_item_definition"
+          ],
+          "status": "manual"
+        },
+        {
+          "name": "06_Pipeline_Import_Guide.ipynb",
+          "local_path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\06_Pipeline_Import_Guide.ipynb",
+          "display_name": "06_Pipeline_Import_Guide",
+          "size_bytes": 8778,
+          "tools": [
+            "mcp_fabricmcpserv_create_item",
+            "mcp_fabricmcpserv_update_item_definition"
+          ],
+          "status": "manual"
+        }
+      ]
+    },
+    "phase4": {
+      "status": "completed_manual",
+      "pipelines": [
+        {
+          "name": "Pipeline_EMP_Workflow",
+          "local_config": null,
+          "notebooks": [
+            "03_Map_EMP_Source_to_Target"
+          ],
+          "tool": "mcp_fabricmcpserv_create_item",
+          "status": "manual"
+        },
+        {
+          "name": "Pipeline_HR_Workflow",
+          "local_config": null,
+          "notebooks": [
+            "05_Map_HR_Source_to_Target"
+          ],
+          "tool": "mcp_fabricmcpserv_create_item",
+          "status": "manual"
+        }
+      ]
+    },
+    "phase5": {
+      "status": "manual_execution_required",
+      "instruction": "Execute pipelines via Fabric UI ou extensão VS Code"
+    },
+    "phase6": {
+      "status": "manual_validation_required",
+      "expected_tables": [
+        "emp_poc",
+        "hr_poc"
+      ],
+      "instruction": "Validar via Fabric UI e baixar CSVs"
+    }
+  },
+  "end_time": "2026-06-23T11:01:13.943095",
+  "status": "completed_with_manual_steps"
+}

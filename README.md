@@ -21,9 +21,44 @@ Referências em vídeo:
 
 ---
 
-## Início rápido
+## 🚀 Início Rápido — Escolha Seu Caminho
 
-### 1. Clonar e preparar o ambiente
+### ⚡ Opção A: Automação via MCP (RECOMENDADO)
+
+**Migração completa em 10-15 minutos** usando Microsoft Fabric MCP Server.
+
+```bash
+# 1. Clone e setup
+git clone https://github.com/juliopessan/powercenter-microsoft-fabric.git
+cd powercenter-microsoft-fabric
+python3 scripts/setup_environment.py
+
+# 2. Instalar dependências MCP
+pip install requests azure-identity
+
+# 3. Autenticar no Azure
+az login
+
+# 4. Executar migração automatizada
+python scripts/fabric_mcp_migration.py --workspace-name "PowerCenter Migration"
+```
+
+**Resultado:** Workspace completo no Fabric + relatório JSON  
+**Documentação:** [`docs/QUICK_START_MCP_MIGRATION.md`](docs/QUICK_START_MCP_MIGRATION.md)
+
+#### 📊 Última Execução (2026-06-23)
+- ✅ **Workspace criado via MCP:** `PowerCenter Migration` (ID: `999fa43f-32d3-4a10-ad5d-b58a5962e43a`)
+- ✅ **Relatório gerado:** [`output/migration_report_mcp_20260623_105921.json`](output/migration_report_mcp_20260623_105921.json)
+- ⚠️ **Passos manuais:** Lakehouse + notebooks + pipelines (limitação API - capacidade Premium)
+- 📄 **Resumo completo:** [`docs/MIGRATION_EXECUTION_SUMMARY.md`](docs/MIGRATION_EXECUTION_SUMMARY.md)
+
+---
+
+### 📘 Opção B: Fluxo Manual (Passo a Passo)
+
+**Migração guiada via UI/API** para aprender cada etapa.
+
+#### 1. Clonar e preparar o ambiente
 
 ```bash
 git clone https://github.com/juliopessan/powercenter-microsoft-fabric.git
@@ -35,7 +70,7 @@ python3 scripts/setup_environment.py
 
 O script de setup verifica Python 3.11+, pip, Git, PowerShell, instala os pacotes necessários e gera o arquivo `.env` a partir do template `.env.example`.
 
-### 2. Configurar credenciais
+#### 2. Configurar credenciais
 
 ```bash
 cp .env.example .env   # se o setup não criou automaticamente
@@ -45,7 +80,7 @@ cp .env.example .env   # se o setup não criou automaticamente
 > O arquivo `.env` está no `.gitignore` — **nunca será commitado**.  
 > Commite somente o `.env.example` com valores vazios.
 
-### 3. Instalar o pre-commit hook (uma vez)
+#### 3. Instalar o pre-commit hook (uma vez)
 
 ```bash
 python3 scripts/install_hooks.py
@@ -53,21 +88,29 @@ python3 scripts/install_hooks.py
 
 A partir daí o harness roda automaticamente antes de cada commit.
 
-### 4. Verificar integridade do projeto
+#### 4. Verificar integridade do projeto
 
 ```bash
 python3 -m harness.runner
 ```
 
-### 5. Gerar dados de teste localmente
+#### 5. Gerar dados de teste localmente
 
 ```bash
 python3 scripts/generate_10k_demo.py
 ```
 
-### 6. Importar para o Microsoft Fabric
+#### 6. Importar para o Microsoft Fabric
 
 Siga o [Passo a Passo](START_HERE.md) ou o guia detalhado em [`docs/FABRIC_IMPORT_GUIDE.md`](docs/FABRIC_IMPORT_GUIDE.md).
+
+---
+
+## 📚 Documentação Completa
+
+- **[Índice de Documentação](docs/DOCUMENTATION_INDEX.md)** — Navegação completa
+- **[Fluxo via MCP](docs/FABRIC_MCP_MIGRATION_FLOW.md)** — Detalhes técnicos da automação
+- **[Quick Start MCP](docs/QUICK_START_MCP_MIGRATION.md)** — Guia rápido de 3 comandos
 
 ---
 
