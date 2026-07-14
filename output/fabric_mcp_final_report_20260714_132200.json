@@ -1,0 +1,42 @@
+{
+  "report_type": "FABRIC_MCP_INTEGRATION_PLAN",
+  "timestamp": {
+    "generated": "2026-07-14T13:22:00.828583",
+    "duration_seconds": 0.018641
+  },
+  "workspace": {
+    "id": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+    "name": "PowerCenter Migration"
+  },
+  "execution_plan": {
+    "status": "READY",
+    "description": "Plano de integração MCP pronto para execução",
+    "next_step": "Executar operações MCP em sequência"
+  },
+  "assets": {
+    "notebooks": 6,
+    "xml_files": 8,
+    "pipelines": 2
+  },
+  "execution_log": [
+    {
+      "timestamp": "2026-07-14T13:22:00.811072",
+      "phase": "INIT",
+      "status": "INFO",
+      "message": "Iniciando preparação da integração MCP",
+      "details": {
+        "workspace": "PowerCenter Migration",
+        "workspace_id": "999fa43f-32d3-4a10-ad5d-b58a5962e43a"
+      }
+    },
+    {
+      "timestamp": "2026-07-14T13:22:00.814096",
+      "phase": "PREP",
+      "status": "SUCCESS",
+      "message": "11 operações MCP preparadas",
+      "details": {
+        "total_operations": 11
+      }
+    }
+  ]
+}

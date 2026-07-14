@@ -1,0 +1,13 @@
+{
+  "username": "marcos@mrios.com.br",
+  "tenant_id": "organizations",
+  "workspace_id": "878ba859-8217-47b1-8450-d483fcb00462",
+  "workspace_name": "PowerCenter Migration",
+  "token_generated": "2026-07-14T14:03:33.209735",
+  "token_expires_on": 1784052554,
+  "api_endpoints": {
+    "fabric": "https://api.fabric.microsoft.com/v1",
+    "graph": "https://graph.microsoft.com",
+    "arm": "https://management.azure.com"
+  }
+}

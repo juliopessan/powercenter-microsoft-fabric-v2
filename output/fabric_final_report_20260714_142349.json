@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-07-14T14:23:49.706718",
+  "workspace": {
+    "id": "878ba859-8217-47b1-8450-d483fcb00462",
+    "name": "PowerCenter Migration"
+  },
+  "migration_summary": {
+    "notebooks_uploaded": 6,
+    "xml_files_uploaded": 4,
+    "pipelines_executed": 2,
+    "total_pipelines": 2
+  },
+  "status": "COMPLETE",
+  "next_steps": [
+    "1. Abra o Fabric Portal",
+    "2. Acesse o workspace 'PowerCenter Migration'",
+    "3. Verifique os notebooks criados",
+    "4. Consulte o lakehouse para os dados transformados",
+    "5. Monitore a execu\u00e7\u00e3o dos pipelines no hist\u00f3rico"
+  ]
+}

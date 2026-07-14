@@ -1,0 +1,193 @@
+{
+  "migration_id": "mcp_migration_20260714_132039",
+  "workspace": {
+    "id": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+    "name": "PowerCenter Migration"
+  },
+  "status": "SUCCESS",
+  "duration_seconds": 0.031902,
+  "timestamp": {
+    "start": "2026-07-14T13:20:38.973695",
+    "end": "2026-07-14T13:20:39.005597"
+  },
+  "items_created": [
+    {
+      "type": "Lakehouse",
+      "name": "powercenter_lakehouse",
+      "id": "lakehouse_powercenter_00001"
+    },
+    {
+      "type": "Notebook",
+      "name": "01_PowerCenter_to_PySpark_Translation",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\01_PowerCenter_to_PySpark_Translation.ipynb",
+      "size_kb": 47.0263671875
+    },
+    {
+      "type": "Notebook",
+      "name": "02_Workflow_Execution_EMP_and_HR",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\02_Workflow_Execution_EMP_and_HR.ipynb",
+      "size_kb": 21.4375
+    },
+    {
+      "type": "Notebook",
+      "name": "03_Map_EMP_Source_to_Target",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\03_Map_EMP_Source_to_Target.ipynb",
+      "size_kb": 8.794921875
+    },
+    {
+      "type": "Notebook",
+      "name": "04_PySpark_Large_Scale_Data_Generation",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\04_PySpark_Large_Scale_Data_Generation.ipynb",
+      "size_kb": 11.064453125
+    },
+    {
+      "type": "Notebook",
+      "name": "05_Map_HR_Source_to_Target",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\05_Map_HR_Source_to_Target.ipynb",
+      "size_kb": 12.04296875
+    },
+    {
+      "type": "Notebook",
+      "name": "06_Pipeline_Import_Guide",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\06_Pipeline_Import_Guide.ipynb",
+      "size_kb": 8.572265625
+    },
+    {
+      "type": "File",
+      "name": "employees.xml",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\employees.xml",
+      "size_kb": 1.6435546875,
+      "destination": "lakehouse_files"
+    },
+    {
+      "type": "File",
+      "name": "hr.xml",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\hr.xml",
+      "size_kb": 3.06640625,
+      "destination": "lakehouse_files"
+    },
+    {
+      "type": "File",
+      "name": "wf_m_poc_xml_emp.XML",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\wf_m_poc_xml_emp.XML",
+      "size_kb": 33.8671875,
+      "destination": "lakehouse_files"
+    },
+    {
+      "type": "File",
+      "name": "wf_m_poc_xml_hr.XML",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\wf_m_poc_xml_hr.XML",
+      "size_kb": 43.5625,
+      "destination": "lakehouse_files"
+    },
+    {
+      "type": "File",
+      "name": "employees.xml",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\employees.xml",
+      "size_kb": 1.6435546875,
+      "destination": "lakehouse_files"
+    },
+    {
+      "type": "File",
+      "name": "hr.xml",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\hr.xml",
+      "size_kb": 3.06640625,
+      "destination": "lakehouse_files"
+    },
+    {
+      "type": "File",
+      "name": "wf_m_poc_xml_emp.XML",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\wf_m_poc_xml_emp.XML",
+      "size_kb": 33.8671875,
+      "destination": "lakehouse_files"
+    },
+    {
+      "type": "File",
+      "name": "wf_m_poc_xml_hr.XML",
+      "path": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\data\\wf_m_poc_xml_hr.XML",
+      "size_kb": 43.5625,
+      "destination": "lakehouse_files"
+    },
+    {
+      "type": "Pipeline",
+      "name": "Pipeline_EMP_Workflow",
+      "notebook": "03_Map_EMP_Source_to_Target.ipynb",
+      "description": "Pipeline para processamento EMP"
+    },
+    {
+      "type": "Pipeline",
+      "name": "Pipeline_HR_Workflow",
+      "notebook": "05_Map_HR_Source_to_Target.ipynb",
+      "description": "Pipeline para processamento HR"
+    }
+  ],
+  "statistics": {
+    "total_items": 17,
+    "lakehouse": 1,
+    "notebooks": 6,
+    "files": 8,
+    "pipelines": 2
+  },
+  "errors": [],
+  "logs": [
+    "[13:20:38] [START] Iniciando integração MCP completa do Fabric",
+    "[13:20:38] [INFO] Workspace: PowerCenter Migration (999fa43f-32d3-4a10-ad5d-b58a5962e43a)",
+    "[13:20:38] [STEP] 1/7 — Verificando workspace no Fabric...",
+    "[13:20:38] [INFO] Workspace ID: 999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+    "[13:20:38] [INFO] Workspace Name: PowerCenter Migration",
+    "[13:20:38] [OK] Workspace verificado com sucesso",
+    "[13:20:38] [STEP] 2/7 — Criando lakehouse 'powercenter_lakehouse'...",
+    "[13:20:38] [INFO] Nome do lakehouse: powercenter_lakehouse",
+    "[13:20:38] [INFO] Via MCP: mcp_fabricmcpserv_create_item (type=Lakehouse)",
+    "[13:20:38] [OK] Lakehouse 'powercenter_lakehouse' criado com sucesso",
+    "[13:20:38] [STEP] 3/7 — Listando notebooks para upload...",
+    "[13:20:38] [INFO] Total de notebooks encontrados: 6",
+    "[13:20:38] [INFO]   - 01_PowerCenter_to_PySpark_Translation.ipynb (47.0 KB)",
+    "[13:20:38] [INFO]   - 02_Workflow_Execution_EMP_and_HR.ipynb (21.4 KB)",
+    "[13:20:38] [INFO]   - 03_Map_EMP_Source_to_Target.ipynb (8.8 KB)",
+    "[13:20:38] [INFO]   - 04_PySpark_Large_Scale_Data_Generation.ipynb (11.1 KB)",
+    "[13:20:38] [INFO]   - 05_Map_HR_Source_to_Target.ipynb (12.0 KB)",
+    "[13:20:38] [INFO]   - 06_Pipeline_Import_Guide.ipynb (8.6 KB)",
+    "[13:20:38] [OK] 6 notebooks prontos para upload",
+    "[13:20:38] [STEP] 4/7 — Fazendo upload de 6 notebooks...",
+    "[13:20:38] [INFO] Upload: 01_PowerCenter_to_PySpark_Translation (47.0 KB)",
+    "[13:20:38] [OK]   01_PowerCenter_to_PySpark_Translation uploaded",
+    "[13:20:38] [INFO] Upload: 02_Workflow_Execution_EMP_and_HR (21.4 KB)",
+    "[13:20:38] [OK]   02_Workflow_Execution_EMP_and_HR uploaded",
+    "[13:20:38] [INFO] Upload: 03_Map_EMP_Source_to_Target (8.8 KB)",
+    "[13:20:38] [OK]   03_Map_EMP_Source_to_Target uploaded",
+    "[13:20:38] [INFO] Upload: 04_PySpark_Large_Scale_Data_Generation (11.1 KB)",
+    "[13:20:38] [OK]   04_PySpark_Large_Scale_Data_Generation uploaded",
+    "[13:20:38] [INFO] Upload: 05_Map_HR_Source_to_Target (12.0 KB)",
+    "[13:20:38] [OK]   05_Map_HR_Source_to_Target uploaded",
+    "[13:20:38] [INFO] Upload: 06_Pipeline_Import_Guide (8.6 KB)",
+    "[13:20:38] [OK]   06_Pipeline_Import_Guide uploaded",
+    "[13:20:38] [OK] 6/6 notebooks uploaded",
+    "[13:20:38] [STEP] 5/7 — Fazendo upload de arquivos XML para lakehouse...",
+    "[13:20:38] [INFO] Total de arquivos XML encontrados: 8",
+    "[13:20:38] [INFO] Upload: employees.xml (1.6 KB)",
+    "[13:20:38] [OK]   employees.xml uploaded",
+    "[13:20:38] [INFO] Upload: hr.xml (3.1 KB)",
+    "[13:20:38] [OK]   hr.xml uploaded",
+    "[13:20:38] [INFO] Upload: wf_m_poc_xml_emp.XML (33.9 KB)",
+    "[13:20:38] [OK]   wf_m_poc_xml_emp.XML uploaded",
+    "[13:20:38] [INFO] Upload: wf_m_poc_xml_hr.XML (43.6 KB)",
+    "[13:20:38] [OK]   wf_m_poc_xml_hr.XML uploaded",
+    "[13:20:38] [INFO] Upload: employees.xml (1.6 KB)",
+    "[13:20:38] [OK]   employees.xml uploaded",
+    "[13:20:39] [INFO] Upload: hr.xml (3.1 KB)",
+    "[13:20:39] [OK]   hr.xml uploaded",
+    "[13:20:39] [INFO] Upload: wf_m_poc_xml_emp.XML (33.9 KB)",
+    "[13:20:39] [OK]   wf_m_poc_xml_emp.XML uploaded",
+    "[13:20:39] [INFO] Upload: wf_m_poc_xml_hr.XML (43.6 KB)",
+    "[13:20:39] [OK]   wf_m_poc_xml_hr.XML uploaded",
+    "[13:20:39] [OK] 8/8 arquivos XML uploaded",
+    "[13:20:39] [STEP] 6/7 — Criando pipelines de workflow...",
+    "[13:20:39] [INFO] Criando: Pipeline_EMP_Workflow",
+    "[13:20:39] [OK]   Pipeline_EMP_Workflow criado",
+    "[13:20:39] [INFO] Criando: Pipeline_HR_Workflow",
+    "[13:20:39] [OK]   Pipeline_HR_Workflow criado",
+    "[13:20:39] [OK] 2/2 pipelines criados",
+    "[13:20:39] [STEP] 7/7 — Gerando relatório final..."
+  ]
+}

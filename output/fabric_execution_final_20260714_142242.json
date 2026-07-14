@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-07-14T14:22:42.132440",
+  "workspace": {
+    "id": "878ba859-8217-47b1-8450-d483fcb00462",
+    "name": "PowerCenter Migration"
+  },
+  "lakehouse": {
+    "id": "919be5ac-466d-4cfa-a8f0-77774e325c72",
+    "name": "powercenter_lakehouse"
+  },
+  "results": {
+    "notebooks_uploaded": 0,
+    "total_notebooks": 6,
+    "xml_files_uploaded": 4,
+    "total_xml_files": 4,
+    "pipelines_executed": 0,
+    "total_pipelines": 2
+  },
+  "status": "PARTIAL"
+}

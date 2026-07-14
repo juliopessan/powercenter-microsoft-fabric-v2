@@ -1,0 +1,117 @@
+{
+  "workspace": {
+    "id": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+    "name": "PowerCenter Migration"
+  },
+  "total_operations": 10,
+  "operations": [
+    {
+      "step": 1,
+      "tool": "mcp_fabricmcpserv_get_workspace",
+      "description": "Verificar workspace",
+      "parameters": {
+        "WorkspaceId": "999fa43f-32d3-4a10-ad5d-b58a5962e43a"
+      }
+    },
+    {
+      "step": 2,
+      "tool": "mcp_fabricmcpserv_create_item",
+      "description": "Criar lakehouse",
+      "parameters": {
+        "WorkspaceId": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+        "DisplayName": "powercenter_lakehouse",
+        "Type": "Lakehouse",
+        "Description": "Lakehouse para migração PowerCenter"
+      }
+    },
+    {
+      "step": 4,
+      "tool": "mcp_fabricmcpserv_create_item",
+      "description": "Upload notebook: 01_PowerCenter_to_PySpark_Translation",
+      "parameters": {
+        "WorkspaceId": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+        "DisplayName": "01_PowerCenter_to_PySpark_Translation",
+        "Type": "Notebook",
+        "FilePath": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\01_PowerCenter_to_PySpark_Translation.ipynb"
+      }
+    },
+    {
+      "step": 5,
+      "tool": "mcp_fabricmcpserv_create_item",
+      "description": "Upload notebook: 02_Workflow_Execution_EMP_and_HR",
+      "parameters": {
+        "WorkspaceId": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+        "DisplayName": "02_Workflow_Execution_EMP_and_HR",
+        "Type": "Notebook",
+        "FilePath": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\02_Workflow_Execution_EMP_and_HR.ipynb"
+      }
+    },
+    {
+      "step": 6,
+      "tool": "mcp_fabricmcpserv_create_item",
+      "description": "Upload notebook: 03_Map_EMP_Source_to_Target",
+      "parameters": {
+        "WorkspaceId": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+        "DisplayName": "03_Map_EMP_Source_to_Target",
+        "Type": "Notebook",
+        "FilePath": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\03_Map_EMP_Source_to_Target.ipynb"
+      }
+    },
+    {
+      "step": 7,
+      "tool": "mcp_fabricmcpserv_create_item",
+      "description": "Upload notebook: 04_PySpark_Large_Scale_Data_Generation",
+      "parameters": {
+        "WorkspaceId": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+        "DisplayName": "04_PySpark_Large_Scale_Data_Generation",
+        "Type": "Notebook",
+        "FilePath": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\04_PySpark_Large_Scale_Data_Generation.ipynb"
+      }
+    },
+    {
+      "step": 8,
+      "tool": "mcp_fabricmcpserv_create_item",
+      "description": "Upload notebook: 05_Map_HR_Source_to_Target",
+      "parameters": {
+        "WorkspaceId": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+        "DisplayName": "05_Map_HR_Source_to_Target",
+        "Type": "Notebook",
+        "FilePath": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\05_Map_HR_Source_to_Target.ipynb"
+      }
+    },
+    {
+      "step": 9,
+      "tool": "mcp_fabricmcpserv_create_item",
+      "description": "Upload notebook: 06_Pipeline_Import_Guide",
+      "parameters": {
+        "WorkspaceId": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+        "DisplayName": "06_Pipeline_Import_Guide",
+        "Type": "Notebook",
+        "FilePath": "C:\\Users\\julio.cesar.d.pessan\\powercenter-microsoft-fabric\\notebooks\\06_Pipeline_Import_Guide.ipynb"
+      }
+    },
+    {
+      "step": 11,
+      "tool": "mcp_fabricmcpserv_create_item",
+      "description": "Criar pipeline: Pipeline_EMP_Workflow",
+      "parameters": {
+        "WorkspaceId": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+        "DisplayName": "Pipeline_EMP_Workflow",
+        "Type": "Pipeline",
+        "NotebookReference": "03_Map_EMP_Source_to_Target"
+      }
+    },
+    {
+      "step": 11,
+      "tool": "mcp_fabricmcpserv_create_item",
+      "description": "Criar pipeline: Pipeline_HR_Workflow",
+      "parameters": {
+        "WorkspaceId": "999fa43f-32d3-4a10-ad5d-b58a5962e43a",
+        "DisplayName": "Pipeline_HR_Workflow",
+        "Type": "Pipeline",
+        "NotebookReference": "05_Map_HR_Source_to_Target"
+      }
+    }
+  ],
+  "generated": "2026-07-14T13:21:19.624329"
+}

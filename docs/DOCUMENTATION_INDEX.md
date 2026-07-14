@@ -51,6 +51,7 @@
 
 | Documento | Descrição | Tempo |
 |-----------|-----------|-------|
+| **[UPLOAD_MANUAL_FABRIC_PORTAL.md](UPLOAD_MANUAL_FABRIC_PORTAL.md)** ⭐ **NOVO!** | Upload visual via portal web | 22 min |
 | [FABRIC_IMPORT_GUIDE.md](FABRIC_IMPORT_GUIDE.md) | Guia completo (20-30 min) | 20-30 min |
 | [FABRIC_QUICK_IMPORT_15MIN.md](FABRIC_QUICK_IMPORT_15MIN.md) | Import rápido | 15 min |
 | [FABRIC_IMPORT_GUIDE_NO_MCP.md](FABRIC_IMPORT_GUIDE_NO_MCP.md) | Import sem MCP | 25 min |
